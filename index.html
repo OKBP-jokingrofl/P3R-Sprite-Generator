@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <link rel="stylesheet" href="css/style.css">
+  <title>P3R Sprite Generator by u/jokingrofl</title>
+</head>
+
+<body>
+  <div class="app">
+    <div class="toast">
+      <h2 id="message">Test</h2>
+    </div>
+    <div class="characterSelect">
+      <div class="container">
+        <h2 class="title">Character Select</h2>
+      </div>
+      <div class="circle">
+        <div class="closeBtn">X</div>
+      </div>
+      <div class="characterGrid">
+
+      </div>
+    </div>
+    <canvas id="canvas">
+
+    </canvas>
+    <div class="sidePanel">
+      <div id="imgContainer">
+
+      </div>
+      <div class="bottomRightPanel">
+        <div class="buttonContainer">
+          <button type="button" id="saveBtn">Save Sprite</button>
+          <button type="button" id="openOutput">Open Output Folder</button>
+        </div>
+        <!-- <div id="messageBox">
+          <h3 id="message">
+            </h1>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="leftButtons">
+      <h3 id="currentSelection"></h3>
+      <button type="button" class="poseButton" id="characterSelectBtn">Character Select</button>
+      <button type="button" class="poseButton" id="nextPoseBtn">Next Pose</button>
+    </div>
+
+  </div>
+
+  <script src="js/classes/Eyes.js"></script>
+  <script src="js/classes/Mouth.js"></script>
+  <script src="js/classes/Pose.js"></script>
+  <script src="js/classes/Handlers.js"></script>
+  <script src="js/classes/Character.js"></script>
+  <script src="js/classes/SelectionController.js"></script>
+  <script src="js/loadAssets.js"></script>
+  <script src="js/characterSelection.js"></script>
+</body>
+
+</html>

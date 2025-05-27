@@ -1,0 +1,19 @@
+{
+  "name": "p3r-sprite-generator",
+  "version": "1.0.0",
+  "description": "Persona 3 Reload Sprite Generator",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jokingrofl",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^36.1.0",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "jimp": "^1.6.0"
+  }
+}
