@@ -4,8 +4,6 @@ let outfitsLoaded = false;
 let mouthLoaded = false;
 let eyesLoaded = false;
 let appPath = "";
-//let kimonoElements = [];
-//let nonKimonoElements = [];
 let outputFolder = "";
 
 ipcRenderer.send("requestAppPath");
@@ -24,27 +22,18 @@ ipcRenderer.on("alert", (e, message) => {
     console.log(message);
 });
 
+function srcToImgElement(src, type) {
+    let newElement = document.createElement("img");
+    newElement.classList.add('selection');
+    newElement.src = src;
+    newElement.setAttribute("data-type", type);
+    return newElement;
+}
+
 ipcRenderer.on("images", (e, images, type) => {
-    //console.log("Received images:");
-    //console.log(images);
-    //let container = document.getElementById("imgContainer");
     let elements = [];
     for (let img of images) {
-        let newElement = document.createElement("img");
-        newElement.classList.add('selection');
-        newElement.src = img;
-        // if (img.includes("-ki")) { //gather hair ornament elements in a list
-        //     newElement.setAttribute("data-ki", "true");
-        //     kimonoElements.push(newElement);
-        // }
-        // else if (type === "eyes") { //gather non hair ornament elements in a list
-        //     nonKimonoElements.push(newElement);
-        // }
-        // if (img.includes("kimono")) {
-        //     newElement.setAttribute("data-kimono", "true");
-        // }
-        newElement.setAttribute("data-type", type);
-        //container.appendChild(newElement);
+        let newElement = srcToImgElement(img, type);
         newElement.onclick = e => {
             if (newElement.classList.contains("selected"))
                 return;
@@ -52,7 +41,7 @@ ipcRenderer.on("images", (e, images, type) => {
         }
         elements.push(newElement);
     }
-    
+
     switch (type) {
         case "outfit":
             outfitsLoaded = true;
@@ -71,6 +60,10 @@ ipcRenderer.on("images", (e, images, type) => {
             console.log("Error");
     }
 
+});
+
+ipcRenderer.on("specialCases", (e, cases) => {
+    selectedCharacter.getCurrentPose().setSpecialCases(cases);
 });
 
 const canvas = document.getElementById("canvas");

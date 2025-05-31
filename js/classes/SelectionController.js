@@ -38,8 +38,11 @@ class SelectionController {
 
     clearImages() {
         this.imgContainer.innerHTML = "";
-        if (this.outfit)
+        if (this.outfit) {
             this.outfit.element.classList.remove("selected");
+            if (this.outfit.callback) this.outfit.callback();
+        }
+
         if (this.eyes)
             this.eyes.element.classList.remove("selected");
         if (this.mouth)
@@ -82,17 +85,29 @@ class SelectionController {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    setSelection(src, type, element) {
+    setOutfit(src, outfitElement, deselectCallback) {
+        this.outfit = { src: src, element: outfitElement, callback: deselectCallback };
+    }
+
+    setSelection(src, type, element, callback) {
         element.classList.add("selected");
 
         switch (type) {
             case "outfit":
-                if (selectedCharacter.characterHandle) {
-                    selectedCharacter.characterHandle.handleSelection(element);
-                }
-                if (this.outfit)
+                // if (selectedCharacter.characterHandle) {
+                //     selectedCharacter.characterHandle.handleSelection(element);
+                // }
+                // if(selectedCharacter.getCurrentPose().specialCases){
+                //     selectedCharacter.getCurrentPose().handleSelection(element);
+                // }
+                if (this.outfit) {
                     this.outfit.element.classList.remove("selected");
-                this.outfit = { src: src, element: element };
+                    if (this.outfit.callback) this.outfit.callback();
+                }
+
+                // this.outfit = { src: src, element: element };
+                this.setOutfit(src, element, callback);
+
                 break;
             case "eyes":
                 if (this.eyes)
