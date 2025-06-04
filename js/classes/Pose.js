@@ -61,10 +61,7 @@ class Pose {
                 newElement.onclick = e => {
                     if (newElement.classList.contains("selected"))
                         return;
-                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, () => {
-                        //this.eyes.showImages();
-                    });
-                    //this.eyes.hideImages();
+                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
                 }
                 eyes.push(newElement);
                 eyesContainer.appendChild(newElement);
@@ -76,10 +73,7 @@ class Pose {
                     newElement.onclick = e => {
                         if (newElement.classList.contains("selected"))
                             return;
-                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, () => {
-                            //this.mouth.showImages();
-                        });
-                        //this.mouth.hideImages();
+                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
                     }
                     mouths.push(newElement);
                     mouthsContainer.appendChild(newElement);
@@ -95,6 +89,8 @@ class Pose {
                     newSpecialCase.showEyes();
                     newSpecialCase.showMouths();
                     controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, sameSpecialCaseName => {
+                        console.log("Deselect callback for special case called")
+                        console.log("Same special case?", sameSpecialCaseName);
                         if (sameSpecialCaseName) return;
                         newSpecialCase.hideEyes();
                         newSpecialCase.hideMouths();

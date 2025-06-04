@@ -96,17 +96,21 @@ class SelectionController {
 
     setSelection(src, type, element, callback, specialCase) {
         element.classList.add("selected");
-
+        console.log("Set selection called, special case:", this.specialCase);
         switch (type) {
             case "outfit":
                 if (this.outfit) {
                     this.outfit.element.classList.remove("selected");
                     let sameSpecialCaseName = false;
-                    if(this.specialCase && specialCase && this.specialCase.name && specialCase.name)
+                    if (this.specialCase && specialCase && this.specialCase.name && specialCase.name)
                         sameSpecialCaseName = (this.specialCase.name === specialCase.name);
                     if (this.outfit.callback) this.outfit.callback(sameSpecialCaseName);
                 }
                 this.setOutfit(src, element, callback);
+                if (specialCase)
+                    this.specialCase = specialCase;
+                else
+                    this.specialCase = null;
                 break;
             case "eyes":
                 if (this.eyes)
@@ -121,10 +125,9 @@ class SelectionController {
             default:
                 console.log("Invalid selection");
         }
-        if(specialCase)
-            this.specialCase = specialCase;
-        else
-            this.specialCase = null;
+
+        console.log("Set selection finish, special case set to:", this.specialCase);
+
         this.drawSpriteToCanvas(src);
     }
 
