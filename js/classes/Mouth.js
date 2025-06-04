@@ -9,7 +9,6 @@ class Mouth {
     setImages(images) {
         this.images = images;
         this.assetsLoaded = true;
-        this.pose.setUpElements();
     }
 
     appendImages() {

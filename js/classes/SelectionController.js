@@ -60,7 +60,6 @@ class SelectionController {
 
     saveSprite() {
         let fileName = Math.floor(Date.now() * Math.random());
-        //this.img.write(`output/${fileName}.png`);
         this.img.write(`${outputFolder}/${fileName}.png`);
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
@@ -96,7 +95,7 @@ class SelectionController {
 
     setSelection(src, type, element, callback, specialCase) {
         element.classList.add("selected");
-        console.log("Set selection called, special case:", this.specialCase);
+        //console.log("Set selection called, special case:", this.specialCase);
         switch (type) {
             case "outfit":
                 if (this.outfit) {
@@ -126,7 +125,7 @@ class SelectionController {
                 console.log("Invalid selection");
         }
 
-        console.log("Set selection finish, special case set to:", this.specialCase);
+        //console.log("Set selection finish, special case set to:", this.specialCase);
 
         this.drawSpriteToCanvas(src);
     }

@@ -41,12 +41,6 @@ class Pose {
     hideEyes() { this.eyes.hideImages(); }
     hideMouths() { this.mouth.hideImages(); }
 
-    setUpElements() {
-        if (this.character.characterHandle) {
-            this.character.characterHandle.setUpElements();
-        }
-    }
-
     setSpecialCases(specialCases) {
         this.specialCases = [];
         for (const specialCase of specialCases) {
@@ -89,8 +83,8 @@ class Pose {
                     newSpecialCase.showEyes();
                     newSpecialCase.showMouths();
                     controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, sameSpecialCaseName => {
-                        console.log("Deselect callback for special case called")
-                        console.log("Same special case?", sameSpecialCaseName);
+                        //console.log("Deselect callback for special case called")
+                        //console.log("Same special case?", sameSpecialCaseName);
                         if (sameSpecialCaseName) return;
                         newSpecialCase.hideEyes();
                         newSpecialCase.hideMouths();
