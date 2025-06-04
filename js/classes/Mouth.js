@@ -9,15 +9,24 @@ class Mouth {
     setImages(images) {
         this.images = images;
         this.assetsLoaded = true;
-        this.pose.setUpElements();
     }
 
-    displayImages() {
-        let container = document.getElementById("imgContainer");
+    appendImages() {
+        let container = document.getElementById("mouths");
         for (const image of this.images) {
             container.appendChild(image);
         }
         //console.log("Displaying mouths");
         
+    }
+
+    hideImages(){
+        for(const img of this.images)
+            img.style.display = "none";
+    }
+
+    showImages(){
+        for(const img of this.images)
+            img.style.display = "inline";
     }
 }
