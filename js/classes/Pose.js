@@ -49,17 +49,20 @@ class Pose {
             const mouthsContainer = document.getElementById("mouths");
             const eyes = [];
             const mouths = [];
-            for (const eye of specialCase.eyes) {
-                let newElement = srcToImgElement(eye, "eyes");
-                newElement.style.display = "none";
-                newElement.onclick = e => {
-                    if (newElement.classList.contains("selected"))
-                        return;
-                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
+            if (specialCase.eyes) {
+                for (const eye of specialCase.eyes) {
+                    let newElement = srcToImgElement(eye, "eyes");
+                    newElement.style.display = "none";
+                    newElement.onclick = e => {
+                        if (newElement.classList.contains("selected"))
+                            return;
+                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
+                    }
+                    eyes.push(newElement);
+                    eyesContainer.appendChild(newElement);
                 }
-                eyes.push(newElement);
-                eyesContainer.appendChild(newElement);
             }
+
             if (specialCase.mouths) {
                 for (const mouth of specialCase.mouths) {
                     let newElement = srcToImgElement(mouth, "mouth");
@@ -91,9 +94,9 @@ class Pose {
                         this.showEyes();
                         this.showMouths();
                     }, newSpecialCase);
-                    if(newSpecialCase.eyes.length > 0)
+                    if (newSpecialCase.eyes.length > 0)
                         this.hideEyes();
-                    if(newSpecialCase.mouths.length > 0)
+                    if (newSpecialCase.mouths.length > 0)
                         this.hideMouths();
                 }
                 this.specialCases.push(newSpecialCase);

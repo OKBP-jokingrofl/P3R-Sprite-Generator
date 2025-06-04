@@ -86,7 +86,11 @@ function grabImagesFromDir(directory) {
             }
 
         }
-        const [eyes, x] = grabImagesFromDir(path.join(directory, specialCase, "Eyes"));
+        let eyes, x = undefined;
+        if (fs.existsSync(path.join(directory, specialCase, "Eyes"))) {
+            [eyes, x] = grabImagesFromDir(path.join(directory, specialCase, "Eyes"));
+        }
+
         let specialObject = null;
         if (fs.existsSync(path.join(directory, specialCase, "Mouth"))) {
             const [mouths, y] = grabImagesFromDir(path.join(directory, specialCase, "Mouth"));
