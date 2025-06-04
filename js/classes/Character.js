@@ -22,7 +22,7 @@ class Character {
                 this.addPose(new Pose("B", new Eyes(844, 1102), new Mouth(844, 1354), this));
                 this.addPose(new Pose("C", new Eyes(726, 690), new Mouth(729, 1158), this));
                 this.addPose(new Pose("D", new Eyes(792, 931), new Mouth(792, 1182), this));
-                this.characterHandle = new JunpeiHandler(this);
+                //this.characterHandle = new JunpeiHandler(this);
                 break;
             default:
                 console.log("Unimplemented character: ", name);

@@ -14,15 +14,12 @@ class Pose {
         this.outfitsLoaded = false;
     }
 
-    displayImages() {
-        let container = document.getElementById("imgContainer");
-        for (const image of this.outfitImages) {
+    appendImages() {
+        let container = document.getElementById("outfits");
+        for (const image of this.outfitImages)
             container.appendChild(image);
-        }
-        //console.log("Displaying outfits");
-
-        this.eyes.displayImages();
-        this.mouth.displayImages();
+        this.eyes.appendImages();
+        this.mouth.appendImages();
     }
 
     requestAssets() {
@@ -30,7 +27,7 @@ class Pose {
             ipcRenderer.send("requestAssets", this.outfitsPath);
         }
         else {
-            this.displayImages();
+            this.appendImages();
         }
     }
 
@@ -38,6 +35,11 @@ class Pose {
         this.outfitImages = images;
         this.outfitsLoaded = true;
     }
+
+    showEyes() { this.eyes.showImages(); }
+    showMouths() { this.mouth.showImages(); }
+    hideEyes() { this.eyes.hideImages(); }
+    hideMouths() { this.mouth.hideImages(); }
 
     setUpElements() {
         if (this.character.characterHandle) {
@@ -48,7 +50,9 @@ class Pose {
     setSpecialCases(specialCases) {
         this.specialCases = [];
         for (const specialCase of specialCases) {
-            const container = document.getElementById("imgContainer");
+            const outfitsContainer = document.getElementById("outfits");
+            const eyesContainer = document.getElementById("eyes");
+            const mouthsContainer = document.getElementById("mouths");
             const eyes = [];
             const mouths = [];
             for (const eye of specialCase.eyes) {
@@ -57,10 +61,13 @@ class Pose {
                 newElement.onclick = e => {
                     if (newElement.classList.contains("selected"))
                         return;
-                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
+                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, () => {
+                        //this.eyes.showImages();
+                    });
+                    //this.eyes.hideImages();
                 }
                 eyes.push(newElement);
-                container.appendChild(newElement);
+                eyesContainer.appendChild(newElement);
             }
             if (specialCase.mouths) {
                 for (const mouth of specialCase.mouths) {
@@ -69,35 +76,38 @@ class Pose {
                     newElement.onclick = e => {
                         if (newElement.classList.contains("selected"))
                             return;
-                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
+                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, () => {
+                            //this.mouth.showImages();
+                        });
+                        //this.mouth.hideImages();
                     }
                     mouths.push(newElement);
-                    container.appendChild(newElement);
+                    mouthsContainer.appendChild(newElement);
                 }
             }
 
             for (const outfitPath of specialCase.outfitPaths) {
                 const newElement = srcToImgElement(outfitPath, "outfit");
-                container.appendChild(newElement);
-                const newSpecialCase = new SpecialCase(newElement, eyes, mouths);
+                outfitsContainer.appendChild(newElement);
+                const newSpecialCase = new SpecialCase(newElement, eyes, mouths, specialCase.name);
                 newElement.onclick = e => {
                     if (newElement.classList.contains("selected")) return;
                     newSpecialCase.showEyes();
                     newSpecialCase.showMouths();
-                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, e => {
+                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, sameSpecialCaseName => {
+                        if (sameSpecialCaseName) return;
                         newSpecialCase.hideEyes();
                         newSpecialCase.hideMouths();
-                    });
+                        this.showEyes();
+                        this.showMouths();
+                    }, newSpecialCase);
+                    if(newSpecialCase.eyes.length > 0)
+                        this.hideEyes();
+                    if(newSpecialCase.mouths.length > 0)
+                        this.hideMouths();
                 }
                 this.specialCases.push(newSpecialCase);
             }
         }
     }
-
-    //handle selection when a special case outfit is selected
-    handleSelection(element) {
-        console.log("Deprecate");
-
-    }
-
 }

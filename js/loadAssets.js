@@ -54,7 +54,7 @@ ipcRenderer.on("images", (e, images, type) => {
         case "mouth":
             mouthLoaded = true;
             selectedCharacter.getCurrentPose().mouth.setImages(elements);
-            selectedCharacter.getCurrentPose().displayImages();
+            selectedCharacter.getCurrentPose().appendImages();
             break;
         default:
             console.log("Error");

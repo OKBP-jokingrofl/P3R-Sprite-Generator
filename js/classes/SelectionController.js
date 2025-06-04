@@ -9,8 +9,11 @@ class SelectionController {
         this.outfit = null;
         this.mouth = null;
         this.eyes = null;
+        this.specialCase = null;
         this.toast = document.querySelector(".toast");
-        this.imgContainer = document.getElementById("imgContainer");
+        this.outfitsContainer = document.getElementById("outfits");
+        this.eyesContainer = document.getElementById("eyes");
+        this.mouthsContainer = document.getElementById("mouths");
         this.img.onload = () => {
             console.log("onload triggered");
             this.clearCanvas();
@@ -37,7 +40,9 @@ class SelectionController {
     }
 
     clearImages() {
-        this.imgContainer.innerHTML = "";
+        this.outfitsContainer.innerHTML = "";
+        this.eyesContainer.innerHTML = "";
+        this.mouthsContainer.innerHTML = "";
         if (this.outfit) {
             this.outfit.element.classList.remove("selected");
             if (this.outfit.callback) this.outfit.callback();
@@ -89,25 +94,19 @@ class SelectionController {
         this.outfit = { src: src, element: outfitElement, callback: deselectCallback };
     }
 
-    setSelection(src, type, element, callback) {
+    setSelection(src, type, element, callback, specialCase) {
         element.classList.add("selected");
 
         switch (type) {
             case "outfit":
-                // if (selectedCharacter.characterHandle) {
-                //     selectedCharacter.characterHandle.handleSelection(element);
-                // }
-                // if(selectedCharacter.getCurrentPose().specialCases){
-                //     selectedCharacter.getCurrentPose().handleSelection(element);
-                // }
                 if (this.outfit) {
                     this.outfit.element.classList.remove("selected");
-                    if (this.outfit.callback) this.outfit.callback();
+                    let sameSpecialCaseName = false;
+                    if(this.specialCase && specialCase && this.specialCase.name && specialCase.name)
+                        sameSpecialCaseName = (this.specialCase.name === specialCase.name);
+                    if (this.outfit.callback) this.outfit.callback(sameSpecialCaseName);
                 }
-
-                // this.outfit = { src: src, element: element };
                 this.setOutfit(src, element, callback);
-
                 break;
             case "eyes":
                 if (this.eyes)
@@ -122,6 +121,10 @@ class SelectionController {
             default:
                 console.log("Invalid selection");
         }
+        if(specialCase)
+            this.specialCase = specialCase;
+        else
+            this.specialCase = null;
         this.drawSpriteToCanvas(src);
     }
 

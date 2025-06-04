@@ -90,10 +90,10 @@ function grabImagesFromDir(directory) {
         let specialObject = null;
         if (fs.existsSync(path.join(directory, specialCase, "Mouth"))) {
             const [mouths, y] = grabImagesFromDir(path.join(directory, specialCase, "Mouth"));
-            specialObject = new SpecialCase(path.join(directory, specialCase), outfitPaths, eyes, mouths);
+            specialObject = new SpecialCase(path.join(directory, specialCase), outfitPaths, eyes, mouths, specialCase);
         }
         else {
-            specialObject = new SpecialCase(path.join(directory, specialCase), outfitPaths, eyes);
+            specialObject = new SpecialCase(path.join(directory, specialCase), outfitPaths, eyes, undefined, specialCase);
         }
         specialObjects.push(specialObject);
     }
@@ -124,10 +124,11 @@ app.whenReady().then(() => {
 });
 
 class SpecialCase {
-    constructor(folderPath, outfitPaths, eyes, mouths) {
+    constructor(folderPath, outfitPaths, eyes, mouths, name) {
         this.folderPath = folderPath;
         this.outfitPaths = outfitPaths;
         this.eyes = eyes;
         this.mouths = mouths;
+        this.name = name;
     }
 }

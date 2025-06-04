@@ -1,9 +1,10 @@
 
 class SpecialCase {
-    constructor(outfitElement, eyes, mouths) {
+    constructor(outfitElement, eyes, mouths, name) {
         this.outfitElement = outfitElement;
         this.eyes = eyes;
         this.mouths = mouths;
+        this.name = name;
     }
 
     showEyes() {
