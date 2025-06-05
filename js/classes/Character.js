@@ -21,6 +21,9 @@ class Character {
                 this.addPose(new Pose("C", new Eyes(726, 690), new Mouth(729, 1158), this));
                 this.addPose(new Pose("D", new Eyes(792, 931), new Mouth(792, 1182), this));
                 break;
+            case "Fuuka":
+                this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this))
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
