@@ -15,19 +15,6 @@ body {
     user-select: none;
 }
 
-.characterSelect {
-    z-index: 10;
-    background-color: rgba(128, 128, 128, 0.505);
-    backdrop-filter: blur(10px);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    animation-name: fadeIn;
-    animation-duration: 0.5s;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -70,39 +57,6 @@ body {
 .circle:hover {
     background-color: rgba(0, 0, 0, 0.74);
     cursor: pointer;
-}
-
-.characterGrid {
-    display: flex;
-    gap: 50px;
-    width: 100%;
-    height: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-y: auto;
-    align-items: end;
-}
-
-.characterContainer {
-    width: 25%;
-    height: auto;
-}
-
-.characterContainer span {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: large;
-    color: white;
-}
-
-.characterContainer:hover {
-    cursor: pointer;
-}
-
-.characterImg {
-    width: 100%;
-    height: auto;
 }
 
 .sidePanel {
