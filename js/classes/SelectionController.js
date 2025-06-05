@@ -9,8 +9,11 @@ class SelectionController {
         this.outfit = null;
         this.mouth = null;
         this.eyes = null;
+        this.specialCase = null;
         this.toast = document.querySelector(".toast");
-        this.imgContainer = document.getElementById("imgContainer");
+        this.outfitsContainer = document.getElementById("outfits");
+        this.eyesContainer = document.getElementById("eyes");
+        this.mouthsContainer = document.getElementById("mouths");
         this.img.onload = () => {
             console.log("onload triggered");
             this.clearCanvas();
@@ -37,9 +40,15 @@ class SelectionController {
     }
 
     clearImages() {
-        this.imgContainer.innerHTML = "";
-        if (this.outfit)
+        this.outfitsContainer.innerHTML = "";
+        this.eyesContainer.innerHTML = "";
+        this.mouthsContainer.innerHTML = "";
+        if (this.outfit) {
             this.outfit.element.classList.remove("selected");
+            //if (this.outfit.callback) this.outfit.callback(undefined, true);
+            if (this.outfit.callback) this.outfit.callback();
+        }
+
         if (this.eyes)
             this.eyes.element.classList.remove("selected");
         if (this.mouth)
@@ -52,7 +61,6 @@ class SelectionController {
 
     saveSprite() {
         let fileName = Math.floor(Date.now() * Math.random());
-        //this.img.write(`output/${fileName}.png`);
         this.img.write(`${outputFolder}/${fileName}.png`);
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
@@ -82,17 +90,27 @@ class SelectionController {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    setSelection(src, type, element) {
-        element.classList.add("selected");
+    setOutfit(src, outfitElement, deselectCallback) {
+        this.outfit = { src: src, element: outfitElement, callback: deselectCallback };
+    }
 
+    setSelection(src, type, element, callback, specialCase) {
+        element.classList.add("selected");
+        //console.log("Set selection called, special case:", this.specialCase);
         switch (type) {
             case "outfit":
-                if (selectedCharacter.characterHandle) {
-                    selectedCharacter.characterHandle.handleSelection(element);
-                }
-                if (this.outfit)
+                if (this.outfit) {
                     this.outfit.element.classList.remove("selected");
-                this.outfit = { src: src, element: element };
+                    let sameSpecialCaseName = false;
+                    if (this.specialCase && specialCase && this.specialCase.name && specialCase.name)
+                        sameSpecialCaseName = (this.specialCase.name === specialCase.name);
+                    if (this.outfit.callback) this.outfit.callback(sameSpecialCaseName);
+                }
+                this.setOutfit(src, element, callback);
+                if (specialCase)
+                    this.specialCase = specialCase;
+                else
+                    this.specialCase = null;
                 break;
             case "eyes":
                 if (this.eyes)
@@ -107,6 +125,9 @@ class SelectionController {
             default:
                 console.log("Invalid selection");
         }
+
+        //console.log("Set selection finish, special case set to:", this.specialCase);
+
         this.drawSpriteToCanvas(src);
     }
 

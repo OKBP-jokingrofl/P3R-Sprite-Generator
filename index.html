@@ -7,6 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
   <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/characterSelection.css">
   <title>P3R Sprite Generator by u/jokingrofl</title>
 </head>
 
@@ -31,17 +32,15 @@
     </canvas>
     <div class="sidePanel">
       <div id="imgContainer">
-
+        <div id="outfits"></div>
+        <div id="eyes"></div>
+        <div id="mouths"></div>
       </div>
       <div class="bottomRightPanel">
         <div class="buttonContainer">
           <button type="button" id="saveBtn">Save Sprite</button>
           <button type="button" id="openOutput">Open Output Folder</button>
         </div>
-        <!-- <div id="messageBox">
-          <h3 id="message">
-            </h1>
-        </div> -->
       </div>
     </div>
 
@@ -53,10 +52,10 @@
 
   </div>
 
+  <script src="js/classes/SpecialCase.js"></script>
   <script src="js/classes/Eyes.js"></script>
   <script src="js/classes/Mouth.js"></script>
   <script src="js/classes/Pose.js"></script>
-  <script src="js/classes/Handlers.js"></script>
   <script src="js/classes/Character.js"></script>
   <script src="js/classes/SelectionController.js"></script>
   <script src="js/loadAssets.js"></script>

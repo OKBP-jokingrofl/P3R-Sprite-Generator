@@ -11,12 +11,19 @@ class Eyes {
         this.assetsLoaded = true;
     }
 
-    displayImages() {
-        let container = document.getElementById("imgContainer");
-        for (const image of this.images) {
+    appendImages() {
+        let container = document.getElementById("eyes");
+        for (const image of this.images)
             container.appendChild(image);
-        }
-        //console.log("Displaying eyes");
-        
+    }
+
+    hideImages(){
+        for(const img of this.images)
+            img.style.display = "none";
+    }
+
+    showImages(){
+        for(const img of this.images)
+            img.style.display = "inline";
     }
 }
