@@ -7,6 +7,7 @@ class Pose {
         this.eyes.pose = this;
         this.mouth.pose = this;
         this.outfitImages = [];
+        this.specialCases = [];
         this.characterName = character.name;
         this.outfitsPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`);
         this.eyesPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Eyes");
@@ -15,9 +16,21 @@ class Pose {
     }
 
     appendImages() {
-        let container = document.getElementById("outfits");
+        let outfitsContainer = document.getElementById("outfits");
+        const eyesContainer = document.getElementById("eyes");
+        const mouthsContainer = document.getElementById("mouths")
+        if (this.specialCases.length > 0) {
+            for (const specialCase of this.specialCases) {
+                outfitsContainer.appendChild(specialCase.outfitElement);
+                for (const eye of specialCase.eyes)
+                    eyesContainer.appendChild(eye);
+                for (const mouth of specialCase.mouths)
+                    mouthsContainer.appendChild(mouth);
+            }
+        }
+
         for (const image of this.outfitImages)
-            container.appendChild(image);
+            outfitsContainer.appendChild(image);
         this.eyes.appendImages();
         this.mouth.appendImages();
     }
@@ -42,7 +55,6 @@ class Pose {
     hideMouths() { this.mouth.hideImages(); }
 
     setSpecialCases(specialCases) {
-        this.specialCases = [];
         for (const specialCase of specialCases) {
             const outfitsContainer = document.getElementById("outfits");
             const eyesContainer = document.getElementById("eyes");
@@ -85,10 +97,10 @@ class Pose {
                     if (newElement.classList.contains("selected")) return;
                     newSpecialCase.showEyes();
                     newSpecialCase.showMouths();
-                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, sameSpecialCaseName => {
+                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, (sameSpecialCaseName, nextPose) => {
                         //console.log("Deselect callback for special case called")
                         //console.log("Same special case?", sameSpecialCaseName);
-                        if (sameSpecialCaseName) return;
+                        if (sameSpecialCaseName || nextPose) return;
                         newSpecialCase.hideEyes();
                         newSpecialCase.hideMouths();
                         this.showEyes();

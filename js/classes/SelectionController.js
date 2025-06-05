@@ -45,6 +45,7 @@ class SelectionController {
         this.mouthsContainer.innerHTML = "";
         if (this.outfit) {
             this.outfit.element.classList.remove("selected");
+            //if (this.outfit.callback) this.outfit.callback(undefined, true);
             if (this.outfit.callback) this.outfit.callback();
         }
 
