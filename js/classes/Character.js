@@ -25,6 +25,9 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this));
                 this.addPose(new Pose("B", new Eyes(702, 1011), new Mouth(702, 1261), this));
                 break;
+            case "Akihiko":
+                this.addPose(new Pose("A", new Eyes(715, 1029), new Mouth(715, 1277), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
