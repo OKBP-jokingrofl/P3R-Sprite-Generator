@@ -13,7 +13,8 @@ const createWindow = () => {
             contextIsolation: false
         },
         width: 1062,
-        height: 600
+        height: 600,
+        autoHideMenuBar: true
     });
     win.setAspectRatio(1.77);
     win.loadFile('index.html');
