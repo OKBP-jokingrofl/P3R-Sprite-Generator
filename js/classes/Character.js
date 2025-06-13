@@ -25,6 +25,20 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this));
                 this.addPose(new Pose("B", new Eyes(702, 1011), new Mouth(702, 1261), this));
                 break;
+            case "Akihiko":
+                this.addPose(new Pose("A", new Eyes(715, 1029), new Mouth(715, 1277), this));
+                this.addPose(new Pose("B", new Eyes(851, 991), new Mouth(851, 1239), this));
+                break;
+            case "Ken":
+                this.addPose(new Pose("A", new Eyes(703, 839), new Mouth(703, 1343), this));
+                this.addPose(new Pose("B", new Eyes(651, 898), new Mouth(652, 1405), this));
+                break;
+            case "Chihiro":
+                this.addPose(new Pose("A", new Eyes(798, 1025), new Mouth(798, 1273), this));
+                break;
+            case "Yuko":
+                this.addPose(new Pose("A", new Eyes(688, 1002), new Mouth(688, 1250), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
