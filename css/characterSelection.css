@@ -2,7 +2,7 @@
     z-index: 10;
     background-color: rgba(128, 128, 128, 0.505);
     backdrop-filter: blur(10px);
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
@@ -15,11 +15,12 @@
     display: grid;
     gap: 50px;
     width: 100%;
-    height: auto;
+    height: calc(100% - 50px);
     justify-content: center;
     overflow-y: auto;
     align-items: end;
     grid-template-columns: repeat(5, 1fr);
+    position: relative;
 }
 
 .characterContainer {
@@ -42,4 +43,49 @@
 .characterImg {
     width: 100%;
     height: auto;
+}
+
+.container {
+    width: 100%;
+    height: 50px;
+}
+
+.title {
+    color: white;
+    pointer-events: none;
+    text-align: center;
+}
+
+.circle {
+    position: fixed;
+    right: 5%;
+    top: 5%;
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    background-color: rgba(128, 128, 128, 0.493);
+    justify-items: center;
+    align-content: center;
+    transition: 0.5s;
+    z-index: 11;
+}
+
+.closeBtn {
+    color: white;
+    font-size: large;
+}
+
+.circle:hover {
+    background-color: rgba(0, 0, 0, 0.74);
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

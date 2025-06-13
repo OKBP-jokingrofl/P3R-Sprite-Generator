@@ -29,6 +29,10 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(715, 1029), new Mouth(715, 1277), this));
                 this.addPose(new Pose("B", new Eyes(851, 991), new Mouth(851, 1239), this));
                 break;
+            case "Ken":
+                this.addPose(new Pose("A", new Eyes(703, 839), new Mouth(703, 1343), this));
+                this.addPose(new Pose("B", new Eyes(651, 898), new Mouth(652, 1405), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
