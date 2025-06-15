@@ -43,6 +43,10 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(885, 995), new Mouth(885, 1243), this));
                 this.addPose(new Pose("B", new Eyes(843, 996), new Mouth(843, 1244), this));
                 break;
+            case "Shinji":
+                this.addPose(new Pose("A", new Eyes(938, 1059), new Mouth(938, 1307), this));
+                this.addPose(new Pose("B", new Eyes(824, 943), new Mouth(825, 1179), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
