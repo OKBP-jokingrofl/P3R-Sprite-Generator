@@ -33,6 +33,14 @@ class Pose {
             outfitsContainer.appendChild(image);
         this.eyes.appendImages();
         this.mouth.appendImages();
+        this.drawDefaultSprite();
+    }
+
+    drawDefaultSprite(){
+        console.log("Call to draw default sprite");
+        controller.setSelection(this.outfitImages[0].src, "outfit", this.outfitImages[0]);
+        controller.setSelection(this.eyes.images[0].src, "eyes", this.eyes.images[0]);
+        controller.setSelection(this.mouth.images[0].src, "mouth", this.mouth.images[0]);
     }
 
     requestAssets() {
