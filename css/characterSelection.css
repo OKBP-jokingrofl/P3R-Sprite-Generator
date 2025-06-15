@@ -15,7 +15,7 @@
     display: grid;
     gap: 50px;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 80px);
     justify-content: center;
     overflow-y: auto;
     align-items: end;
