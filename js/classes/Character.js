@@ -47,6 +47,10 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(938, 1059), new Mouth(938, 1307), this));
                 this.addPose(new Pose("B", new Eyes(824, 943), new Mouth(825, 1179), this));
                 break;
+            case "Aigis":
+                this.addPose(new Pose("A", new Eyes(695, 1052), new Mouth(695, 1300), this));
+                this.addPose(new Pose("B", new Eyes(768, 1049), new Mouth(768, 1297), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
