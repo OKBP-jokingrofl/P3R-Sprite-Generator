@@ -2,10 +2,10 @@ const { Jimp } = require("jimp");
 
 class SelectionController {
 
-    constructor(canvas, ctx, img, saveBtn) {
+    constructor(canvas, saveBtn) {
         this.canvas = canvas;
-        this.ctx = ctx;
-        this.img = img;
+        this.ctx = canvas.getContext("2d");
+        this.img = new Image();
         this.outfit = null;
         this.mouth = null;
         this.eyes = null;
@@ -43,20 +43,41 @@ class SelectionController {
         this.outfitsContainer.innerHTML = "";
         this.eyesContainer.innerHTML = "";
         this.mouthsContainer.innerHTML = "";
-        if (this.outfit) {
-            this.outfit.element.classList.remove("selected");
-            //if (this.outfit.callback) this.outfit.callback(undefined, true);
-            if (this.outfit.callback) this.outfit.callback();
-        }
+        this.deselectOutfit();
+        this.deselectEyes();
+        this.deselectMouth();
+    }
 
+    deselectOutfit() {
+        if (this.outfit)
+            this.deselectElement(this.outfit.element);
+    }
+
+    deselectEyes() {
         if (this.eyes)
-            this.eyes.element.classList.remove("selected");
+            this.deselectElement(this.eyes.element);
+    }
+
+    deselectMouth() {
         if (this.mouth)
-            this.mouth.element.classList.remove("selected");
-        this.outfit = null;
-        this.eyes = null;
-        this.mouth = null;
-        this.showingKimonoElements = false;
+            this.deselectElement(this.mouth.element);
+    }
+
+    deselectElement(element) {
+        element.classList.remove("selected");
+        switch (element.getAttribute("data-type")) {
+            case "outfit":
+                this.outfit = null;
+                break;
+            case "eyes":
+                this.eyes = null;
+                break;
+            case "mouth":
+                this.mouth = null;
+                break;
+            default:
+                console.log("Error: Deselecting unknown type");
+        }
     }
 
     saveSprite() {
@@ -94,7 +115,24 @@ class SelectionController {
         this.outfit = { src: src, element: outfitElement, callback: deselectCallback };
     }
 
+    selectDefaultEyes() {
+        this.selectElement(selectedCharacter.getCurrentPose().eyes.images[0], "eyes");
+    }
+
+    selectDefaultMouth() {
+        this.selectElement(selectedCharacter.getCurrentPose().mouth.images[0], "mouth");
+    }
+
+    selectElement(element, type) {
+        if (element)
+            this.setSelection(element.src, type, element);
+        else
+            console.log("Invalid parameters for selectElement:", element, type);
+    }
+
     setSelection(src, type, element, callback, specialCase) {
+        if (element.classList.contains("selected"))
+            return;
         element.classList.add("selected");
         //console.log("Set selection called, special case:", this.specialCase);
         switch (type) {

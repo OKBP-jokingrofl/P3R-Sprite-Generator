@@ -22,11 +22,12 @@ ipcRenderer.on("alert", (e, message) => {
     console.log(message);
 });
 
-function srcToImgElement(src, type) {
+function srcToImgElement(src, type, imageSet="general") {
     let newElement = document.createElement("img");
-    newElement.classList.add('selection');
+    newElement.classList.add("selectable");
     newElement.src = src;
     newElement.setAttribute("data-type", type);
+    newElement.setAttribute("image-set", imageSet);
     return newElement;
 }
 
@@ -35,9 +36,7 @@ ipcRenderer.on("images", (e, images, type) => {
     for (let img of images) {
         let newElement = srcToImgElement(img, type);
         newElement.onclick = e => {
-            if (newElement.classList.contains("selected"))
-                return;
-            controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
+            controller.setSelection(newElement.src, type, newElement);
         }
         elements.push(newElement);
     }
@@ -55,6 +54,7 @@ ipcRenderer.on("images", (e, images, type) => {
             mouthLoaded = true;
             selectedCharacter.getCurrentPose().mouth.setImages(elements);
             selectedCharacter.getCurrentPose().appendImages();
+            selectedCharacter.getCurrentPose().addGeneralImageSet();
             break;
         default:
             console.log("Error");
@@ -62,12 +62,8 @@ ipcRenderer.on("images", (e, images, type) => {
 
 });
 
-ipcRenderer.on("specialCases", (e, cases) => {
-    selectedCharacter.getCurrentPose().setSpecialCases(cases);
+ipcRenderer.on("specialOutfits", (e, cases) => {
+    selectedCharacter.getCurrentPose().setSpecialOutfits(cases);
 });
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const img = new Image();
-const controller = new SelectionController(canvas, ctx, img, document.getElementById("saveBtn"));
-
+const controller = new SelectionController(document.getElementById("canvas"), document.getElementById("saveBtn"));

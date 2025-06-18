@@ -7,24 +7,30 @@ class Pose {
         this.eyes.pose = this;
         this.mouth.pose = this;
         this.outfitImages = [];
-        this.specialCases = [];
+        this.specialOutfits = [];
         this.characterName = character.name;
         this.outfitsPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`);
         this.eyesPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Eyes");
         this.mouthPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Mouth");
         this.outfitsLoaded = false;
+        this.imageSets = new Map();
+
+    }
+
+    addGeneralImageSet() {
+        this.imageSets.set("general", new ImageSet("general", this.outfitImages, this.eyes.images, this.mouth.images));
     }
 
     appendImages() {
         let outfitsContainer = document.getElementById("outfits");
         const eyesContainer = document.getElementById("eyes");
         const mouthsContainer = document.getElementById("mouths")
-        if (this.specialCases.length > 0) {
-            for (const specialCase of this.specialCases) {
-                outfitsContainer.appendChild(specialCase.outfitElement);
-                for (const eye of specialCase.eyes)
+        if (this.specialOutfits.length > 0) {
+            for (const specialOutfit of this.specialOutfits) {
+                outfitsContainer.appendChild(specialOutfit.outfitElement);
+                for (const eye of specialOutfit.eyes)
                     eyesContainer.appendChild(eye);
-                for (const mouth of specialCase.mouths)
+                for (const mouth of specialOutfit.mouths)
                     mouthsContainer.appendChild(mouth);
             }
         }
@@ -36,8 +42,7 @@ class Pose {
         this.drawDefaultSprite();
     }
 
-    drawDefaultSprite(){
-        console.log("Call to draw default sprite");
+    drawDefaultSprite() {
         controller.setSelection(this.outfitImages[0].src, "outfit", this.outfitImages[0]);
         controller.setSelection(this.eyes.images[0].src, "eyes", this.eyes.images[0]);
         controller.setSelection(this.mouth.images[0].src, "mouth", this.mouth.images[0]);
@@ -62,7 +67,7 @@ class Pose {
     hideEyes() { this.eyes.hideImages(); }
     hideMouths() { this.mouth.hideImages(); }
 
-    setSpecialCases(specialCases) {
+    setSpecialOutfits(specialCases) {
         for (const specialCase of specialCases) {
             const outfitsContainer = document.getElementById("outfits");
             const eyesContainer = document.getElementById("eyes");
@@ -71,7 +76,7 @@ class Pose {
             const mouths = [];
             if (specialCase.eyes) {
                 for (const eye of specialCase.eyes) {
-                    let newElement = srcToImgElement(eye, "eyes");
+                    let newElement = srcToImgElement(eye, "eyes", specialCase.name);
                     newElement.style.display = "none";
                     newElement.onclick = e => {
                         if (newElement.classList.contains("selected"))
@@ -85,7 +90,7 @@ class Pose {
 
             if (specialCase.mouths) {
                 for (const mouth of specialCase.mouths) {
-                    let newElement = srcToImgElement(mouth, "mouth");
+                    let newElement = srcToImgElement(mouth, "mouth", specialCase.name);
                     newElement.style.display = "none";
                     newElement.onclick = e => {
                         if (newElement.classList.contains("selected"))
@@ -98,28 +103,36 @@ class Pose {
             }
 
             for (const outfitPath of specialCase.outfitPaths) {
-                const newElement = srcToImgElement(outfitPath, "outfit");
+                const newElement = srcToImgElement(outfitPath, "outfit", specialCase.name);
                 outfitsContainer.appendChild(newElement);
-                const newSpecialCase = new SpecialCase(newElement, eyes, mouths, specialCase.name);
+                const newSpecialOutfit = new SpecialOutfit(newElement, eyes, mouths, specialCase.name, this);
+
+                //when a special case is clicked
                 newElement.onclick = e => {
                     if (newElement.classList.contains("selected")) return;
-                    newSpecialCase.showEyes();
-                    newSpecialCase.showMouths();
+                    newSpecialOutfit.showEyes();
+                    if (newSpecialOutfit.eyes.length > 0)
+                        controller.selectElement(newSpecialOutfit.eyes[0], "eyes");
+                    newSpecialOutfit.showMouths();
+                    if (newSpecialOutfit.mouths.length > 0)
+                        controller.selectElement(newSpecialOutfit.mouths[0], "mouth");
                     controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, (sameSpecialCaseName, nextPose) => {
-                        //console.log("Deselect callback for special case called")
-                        //console.log("Same special case?", sameSpecialCaseName);
+                        console.log("Deselect callback for special case called")
+                        console.log("Same special case?", sameSpecialCaseName);
                         if (sameSpecialCaseName || nextPose) return;
-                        newSpecialCase.hideEyes();
-                        newSpecialCase.hideMouths();
+                        newSpecialOutfit.hideEyes();
+                        controller.selectDefaultEyes();
+                        newSpecialOutfit.hideMouths();
+                        controller.selectDefaultMouth();
                         this.showEyes();
                         this.showMouths();
-                    }, newSpecialCase);
-                    if (newSpecialCase.eyes.length > 0)
+                    }, newSpecialOutfit);
+                    if (newSpecialOutfit.eyes.length > 0)
                         this.hideEyes();
-                    if (newSpecialCase.mouths.length > 0)
+                    if (newSpecialOutfit.mouths.length > 0)
                         this.hideMouths();
                 }
-                this.specialCases.push(newSpecialCase);
+                this.specialOutfits.push(newSpecialOutfit);
             }
         }
     }
