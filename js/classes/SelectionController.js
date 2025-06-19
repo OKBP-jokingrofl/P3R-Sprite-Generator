@@ -135,7 +135,6 @@ class SelectionController {
         if (element.classList.contains("selected"))
             return;
         element.classList.add("selected");
-        //console.log("Set selection called, special case:", this.specialCase);
         switch (type) {
             case "outfit":
                 if (this.outfit) {

@@ -35,9 +35,6 @@ ipcRenderer.on("images", (e, images, type) => {
     let elements = [];
     for (let img of images) {
         let newElement = srcToImgElement(img, type);
-        // newElement.onclick = e => {
-        //     controller.setSelection(newElement.src, type, newElement);
-        // }
         elements.push(newElement);
     }
 

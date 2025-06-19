@@ -18,7 +18,6 @@ class ImageSet {
         for (const outfit of outfits) {
             this.addOutfit(outfit);
         }
-        //console.log(`Constructed imageset ${name} with following outfits:`, this.outfits);
     }
 
     addOutfit(outfit) {
