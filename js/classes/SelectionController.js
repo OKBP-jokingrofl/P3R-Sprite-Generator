@@ -142,6 +142,13 @@ class SelectionController {
                     this.outfit.element.classList.remove("selected");
                 }
                 this.setOutfit(src, element);
+                const currentPose = selectedCharacter.getCurrentPose();
+                const imageSetName = element.getAttribute("image-set");
+                if (currentPose.selectedImageSet) {
+                    currentPose.imageSets.get(imageSetName).onImageSetChange(currentPose.selectedImageSet, currentPose.imageSets.get(imageSetName));
+                }
+                else
+                    currentPose.selectedImageSet = currentPose.imageSets.get(imageSetName);
                 break;
             case "eyes":
                 if (this.eyes)

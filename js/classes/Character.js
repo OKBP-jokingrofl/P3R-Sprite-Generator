@@ -4,7 +4,7 @@ class Character {
         this.name = name;
         this.preview = preview;
         this.poses = [];
-        this.selectedPose = 0;
+        this.selectedPoseIndex = 0;
 
         //define offsets for eyes/mouth for each character pose here:
         switch (name) {
@@ -62,17 +62,17 @@ class Character {
 
     nextPose() {
         if(this.poses.length === 1) return;
-        this.selectedPose = (this.selectedPose + 1) % this.poses.length;
+        this.selectedPoseIndex = (this.selectedPoseIndex + 1) % this.poses.length;
         this.loadAssets();
     }
 
     getCurrentPose() {
-        return this.poses[this.selectedPose];
+        return this.poses[this.selectedPoseIndex];
     }
 
     loadAssets() {
         controller.clearImages();
-        this.poses[this.selectedPose].requestAssets();
+        this.poses[this.selectedPoseIndex].requestAssets();
         updateSelectedCharacterView();
     }
 

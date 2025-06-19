@@ -17,14 +17,17 @@ class Pose {
         this.selectedImageSet = null;
     }
 
-    selectImageSet(imageSet) {
+    selectImageSet(imageSet, resetEyes, resetMouths) {
         this.selectedImageSet = imageSet;
-        controller.setSelection(imageSet.eyes[0], "eyes");
-        controller.setSelection(imageSet.mouths[0], "mouth");
+        if(resetEyes)
+            controller.setSelection(imageSet.eyes[0], "eyes");
+        if(resetMouths)
+            controller.setSelection(imageSet.mouths[0], "mouth");
     }
 
     addGeneralImageSet() {
         this.imageSets.set("general", new ImageSet("general", this.outfitImages, this.eyes.images, this.mouth.images, this));
+        this.selectedImageSet = this.imageSets.get("general");
     }
 
     appendImages() {
@@ -61,6 +64,7 @@ class Pose {
         else {
             this.appendImages();
         }
+        
     }
 
     setImages(images) {

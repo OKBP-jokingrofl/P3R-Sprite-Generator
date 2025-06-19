@@ -24,16 +24,27 @@ class ImageSet {
     addOutfit(outfit) {
         outfit.onclick = e => {
             controller.setSelection(outfit, "outfit");
-            if(this.pose.selectedImageSet && (this.pose.selectedImageSet.name === this.name)) return;
-            console.log("Redraw triggered");
-            for (const imageSet of this.pose.imageSets) {
-                //console.log(imageSet);
-                imageSet[1].hideSet();
-            }
-            this.showSet();
-            this.pose.selectImageSet(this);
+            this.onImageSetChange(this.pose.selectedImageSet, this);
         }
         this.outfits.push(outfit);
+    }
+
+    onImageSetChange(previousSet, newSet) {
+        if (previousSet && (previousSet.name === newSet.name)) return;
+        console.log("Redraw triggered");
+        for (const imageSet of newSet.pose.imageSets) {
+            //console.log(imageSet);
+            imageSet[1].hideSet();
+        }
+        newSet.showSet();
+        if (previousSet) {
+            const sameEyes = (previousSet.eyes[0] === newSet.eyes[0]);
+            const sameMouths = (previousSet.mouths[0] === newSet.mouths[0]);
+            console.log("Same Eyes: ", sameEyes, "Same Mouths: ", sameMouths);
+            this.pose.selectImageSet(newSet, !sameEyes, !sameMouths);
+        }
+        else
+            this.pose.selectImageSet(newSet);
     }
 
     showSet() {
