@@ -61,9 +61,8 @@ class Character {
     }
 
     nextPose() {
-        this.selectedPose++;
-        if (this.selectedPose >= this.poses.length)
-            this.selectedPose = 0;
+        if(this.poses.length === 1) return;
+        this.selectedPose = (this.selectedPose + 1) % this.poses.length;
         this.loadAssets();
     }
 

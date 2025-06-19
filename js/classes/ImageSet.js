@@ -1,5 +1,5 @@
 //class for organizing images that are part of a set
-class ImageSet{
+class ImageSet {
     /**
      * 
      * @param {string} name 
@@ -7,50 +7,85 @@ class ImageSet{
      * @param {[DOMElement]} eyes 
      * @param {[DOMElement]} mouths 
      */
-    constructor(name, outfits, eyes, mouths){
+    constructor(name, outfits, eyes, mouths, pose) {
         this.name = name;
-        this.outfits = outfits;
-        this.eyes = eyes;
-        this.mouths = mouths;
+        this.outfits = [];
+        this.pose = pose;
+        if (eyes && eyes.length > 0)
+            this.setEyes(eyes);
+        if (mouths && mouths.length > 0)
+            this.setMouths(mouths);
+        for (const outfit of outfits) {
+            this.addOutfit(outfit);
+        }
+        //console.log(`Constructed imageset ${name} with following outfits:`, this.outfits);
     }
 
-    addOutfit(outfit){
+    addOutfit(outfit) {
+        outfit.onclick = e => {
+            controller.setSelection(outfit, "outfit");
+            if(this.pose.selectedImageSet && (this.pose.selectedImageSet.name === this.name)) return;
+            console.log("Redraw triggered");
+            for (const imageSet of this.pose.imageSets) {
+                //console.log(imageSet);
+                imageSet[1].hideSet();
+            }
+            this.showSet();
+            this.pose.selectImageSet(this);
+        }
         this.outfits.push(outfit);
     }
 
-    showSet(){
-        if(this.eyes[0] && this.eyes[0].style.display !== "inline")
+    showSet() {
+        if (this.eyes[0] && this.eyes[0].style.display !== "inline")
             this.showEyes();
-        if(this.mouths[0] && this.mouths[0].style.display !== "inline")
+        if (this.mouths[0] && this.mouths[0].style.display !== "inline")
             this.showMouths();
     }
 
-    showEyes(){
-        for(const eye of this.eyes)
+    showEyes() {
+        for (const eye of this.eyes)
             eye.style.display = "inline";
     }
 
-    showMouths(){
-        for(const mouth of this.mouths)
+    showMouths() {
+        for (const mouth of this.mouths)
             mouth.style.display = "inline";
     }
 
-    hideEyes(){
-        for(const eye of this.eyes)
+    hideSet() {
+        if (this.eyes[0] && this.eyes[0].style.display !== "none")
+            this.hideEyes();
+        if (this.mouths[0] && this.mouths[0].style.display !== "none")
+            this.hideMouths();
+    }
+
+    hideEyes() {
+        for (const eye of this.eyes)
             eye.style.display = "none";
     }
 
-    hideMouths(){
-        for(const mouth of this.mouths)
+    hideMouths() {
+        for (const mouth of this.mouths)
             mouth.style.display = "none";
     }
 
-    setEyes(eyes){
+    setEyes(eyes) {
         this.eyes = eyes;
+        for (const eye of eyes) {
+            eye.onclick = e => {
+                controller.setSelection(eye, "eyes");
+            }
+        }
     }
 
-    setMouths(mouths){
+    setMouths(mouths) {
         this.mouths = mouths;
+        for (const mouth of mouths) {
+            mouth.onclick = e => {
+                controller.setSelection(mouth, "mouth");
+            }
+        }
     }
 
 }

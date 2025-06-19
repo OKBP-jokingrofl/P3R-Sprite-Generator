@@ -111,8 +111,8 @@ class SelectionController {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    setOutfit(src, outfitElement, deselectCallback) {
-        this.outfit = { src: src, element: outfitElement, callback: deselectCallback };
+    setOutfit(src, outfitElement) {
+        this.outfit = { src: src, element: outfitElement };
     }
 
     selectDefaultEyes() {
@@ -125,12 +125,13 @@ class SelectionController {
 
     selectElement(element, type) {
         if (element)
-            this.setSelection(element.src, type, element);
+            this.setSelection(element, type);
         else
             console.log("Invalid parameters for selectElement:", element, type);
     }
 
-    setSelection(src, type, element, callback, specialCase) {
+    setSelection(element, type) {
+        const src = element.src;
         if (element.classList.contains("selected"))
             return;
         element.classList.add("selected");
@@ -139,16 +140,8 @@ class SelectionController {
             case "outfit":
                 if (this.outfit) {
                     this.outfit.element.classList.remove("selected");
-                    let sameSpecialCaseName = false;
-                    if (this.specialCase && specialCase && this.specialCase.name && specialCase.name)
-                        sameSpecialCaseName = (this.specialCase.name === specialCase.name);
-                    if (this.outfit.callback) this.outfit.callback(sameSpecialCaseName);
                 }
-                this.setOutfit(src, element, callback);
-                if (specialCase)
-                    this.specialCase = specialCase;
-                else
-                    this.specialCase = null;
+                this.setOutfit(src, element);
                 break;
             case "eyes":
                 if (this.eyes)
@@ -163,8 +156,6 @@ class SelectionController {
             default:
                 console.log("Invalid selection");
         }
-
-        //console.log("Set selection finish, special case set to:", this.specialCase);
 
         this.drawSpriteToCanvas(src);
     }
