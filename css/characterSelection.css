@@ -13,19 +13,22 @@
 
 .characterGrid {
     display: grid;
-    gap: 50px;
+    gap: 15px;
     width: 100%;
     height: calc(100% - 80px);
     justify-content: center;
     overflow-y: auto;
     align-items: end;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     position: relative;
 }
 
 .characterContainer {
     width: 100%;
-    height: auto;
+    height: 100%;
+    align-content: end;
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.5s;
 }
 
 .characterContainer span {
@@ -38,6 +41,7 @@
 
 .characterContainer:hover {
     cursor: pointer;
+    background-color: #0000002b;
 }
 
 .characterImg {
