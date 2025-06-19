@@ -30,7 +30,7 @@ class ImageSet {
 
     onImageSetChange(previousSet, newSet) {
         if (previousSet && (previousSet.name === newSet.name)) return;
-        console.log("Redraw triggered");
+        //console.log("Redraw triggered");
         for (const imageSet of newSet.pose.imageSets) {
             //console.log(imageSet);
             imageSet[1].hideSet();
@@ -39,7 +39,7 @@ class ImageSet {
         if (previousSet) {
             const sameEyes = (previousSet.eyes[0] === newSet.eyes[0]);
             const sameMouths = (previousSet.mouths[0] === newSet.mouths[0]);
-            console.log("Same Eyes: ", sameEyes, "Same Mouths: ", sameMouths);
+            //console.log("Same Eyes: ", sameEyes, "Same Mouths: ", sameMouths);
             this.pose.selectImageSet(newSet, !sameEyes, !sameMouths);
         }
         else
