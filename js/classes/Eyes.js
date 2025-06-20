@@ -16,14 +16,4 @@ class Eyes {
         for (const image of this.images)
             container.appendChild(image);
     }
-
-    hideImages(){
-        for(const img of this.images)
-            img.style.display = "none";
-    }
-
-    showImages(){
-        for(const img of this.images)
-            img.style.display = "inline";
-    }
 }

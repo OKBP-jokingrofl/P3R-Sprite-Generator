@@ -112,16 +112,15 @@ function grabImagesFromDir(directory) {
 ipcMain.on("requestAssets", (e, assetsPath) => {
     console.log("Received request for", assetsPath);
     const [outfits, specialCases] = grabImagesFromDir(assetsPath);
-    if (specialCases.length > 0) {
-        //console.log(specialCases);
-        win.webContents.send("specialCases", specialCases);
-    }
-
     win.webContents.send("images", outfits, "outfit");
     const [eyes] = grabImagesFromDir(path.join(assetsPath, "Eyes"));
     win.webContents.send("images", eyes, "eyes");
     const [mouths] = grabImagesFromDir(path.join(assetsPath, "Mouth"));
     win.webContents.send("images", mouths, "mouth");
+    if (specialCases.length > 0) {
+        //console.log(specialCases);
+        win.webContents.send("specialOutfits", specialCases);
+    }
 });
 
 app.whenReady().then(() => {

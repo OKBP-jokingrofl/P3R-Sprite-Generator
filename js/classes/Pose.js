@@ -7,32 +7,54 @@ class Pose {
         this.eyes.pose = this;
         this.mouth.pose = this;
         this.outfitImages = [];
-        this.specialCases = [];
+        this.specialOutfits = [];
         this.characterName = character.name;
         this.outfitsPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`);
         this.eyesPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Eyes");
         this.mouthPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Mouth");
         this.outfitsLoaded = false;
+        this.imageSets = new Map();
+        this.selectedImageSet = null;
+    }
+
+    selectImageSet(imageSet, resetEyes, resetMouths) {
+        this.selectedImageSet = imageSet;
+        if(resetEyes)
+            controller.setSelection(imageSet.eyes[0], "eyes");
+        if(resetMouths)
+            controller.setSelection(imageSet.mouths[0], "mouth");
+    }
+
+    addGeneralImageSet() {
+        this.imageSets.set("general", new ImageSet("general", this.outfitImages, this.eyes.images, this.mouth.images, this));
+        this.selectedImageSet = this.imageSets.get("general");
     }
 
     appendImages() {
         let outfitsContainer = document.getElementById("outfits");
         const eyesContainer = document.getElementById("eyes");
         const mouthsContainer = document.getElementById("mouths")
-        if (this.specialCases.length > 0) {
-            for (const specialCase of this.specialCases) {
-                outfitsContainer.appendChild(specialCase.outfitElement);
-                for (const eye of specialCase.eyes)
-                    eyesContainer.appendChild(eye);
-                for (const mouth of specialCase.mouths)
-                    mouthsContainer.appendChild(mouth);
-            }
-        }
 
         for (const image of this.outfitImages)
             outfitsContainer.appendChild(image);
+        if (this.specialOutfits.length > 0) {
+            for (const specialOutfit of this.specialOutfits) {
+                outfitsContainer.appendChild(specialOutfit.outfitElement);
+                for (const eye of specialOutfit.eyes)
+                    eyesContainer.appendChild(eye);
+                for (const mouth of specialOutfit.mouths)
+                    mouthsContainer.appendChild(mouth);
+            }
+        }
         this.eyes.appendImages();
         this.mouth.appendImages();
+        this.drawDefaultSprite();
+    }
+
+    drawDefaultSprite() {
+        controller.setSelection(this.outfitImages[0], "outfit");
+        controller.setSelection(this.eyes.images[0], "eyes");
+        controller.setSelection(this.mouth.images[0], "mouth");
     }
 
     requestAssets() {
@@ -42,6 +64,7 @@ class Pose {
         else {
             this.appendImages();
         }
+        
     }
 
     setImages(images) {
@@ -49,12 +72,7 @@ class Pose {
         this.outfitsLoaded = true;
     }
 
-    showEyes() { this.eyes.showImages(); }
-    showMouths() { this.mouth.showImages(); }
-    hideEyes() { this.eyes.hideImages(); }
-    hideMouths() { this.mouth.hideImages(); }
-
-    setSpecialCases(specialCases) {
+    setSpecialOutfits(specialCases) {
         for (const specialCase of specialCases) {
             const outfitsContainer = document.getElementById("outfits");
             const eyesContainer = document.getElementById("eyes");
@@ -63,13 +81,8 @@ class Pose {
             const mouths = [];
             if (specialCase.eyes) {
                 for (const eye of specialCase.eyes) {
-                    let newElement = srcToImgElement(eye, "eyes");
+                    let newElement = srcToImgElement(eye, "eyes", specialCase.name);
                     newElement.style.display = "none";
-                    newElement.onclick = e => {
-                        if (newElement.classList.contains("selected"))
-                            return;
-                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
-                    }
                     eyes.push(newElement);
                     eyesContainer.appendChild(newElement);
                 }
@@ -77,41 +90,18 @@ class Pose {
 
             if (specialCase.mouths) {
                 for (const mouth of specialCase.mouths) {
-                    let newElement = srcToImgElement(mouth, "mouth");
+                    let newElement = srcToImgElement(mouth, "mouth", specialCase.name);
                     newElement.style.display = "none";
-                    newElement.onclick = e => {
-                        if (newElement.classList.contains("selected"))
-                            return;
-                        controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement);
-                    }
                     mouths.push(newElement);
                     mouthsContainer.appendChild(newElement);
                 }
             }
 
             for (const outfitPath of specialCase.outfitPaths) {
-                const newElement = srcToImgElement(outfitPath, "outfit");
+                const newElement = srcToImgElement(outfitPath, "outfit", specialCase.name);
                 outfitsContainer.appendChild(newElement);
-                const newSpecialCase = new SpecialCase(newElement, eyes, mouths, specialCase.name);
-                newElement.onclick = e => {
-                    if (newElement.classList.contains("selected")) return;
-                    newSpecialCase.showEyes();
-                    newSpecialCase.showMouths();
-                    controller.setSelection(newElement.src, newElement.getAttribute("data-type"), newElement, (sameSpecialCaseName, nextPose) => {
-                        //console.log("Deselect callback for special case called")
-                        //console.log("Same special case?", sameSpecialCaseName);
-                        if (sameSpecialCaseName || nextPose) return;
-                        newSpecialCase.hideEyes();
-                        newSpecialCase.hideMouths();
-                        this.showEyes();
-                        this.showMouths();
-                    }, newSpecialCase);
-                    if (newSpecialCase.eyes.length > 0)
-                        this.hideEyes();
-                    if (newSpecialCase.mouths.length > 0)
-                        this.hideMouths();
-                }
-                this.specialCases.push(newSpecialCase);
+                const newSpecialOutfit = new SpecialOutfit(newElement, eyes, mouths, specialCase.name, this);
+                this.specialOutfits.push(newSpecialOutfit);
             }
         }
     }

@@ -2,10 +2,10 @@ const { Jimp } = require("jimp");
 
 class SelectionController {
 
-    constructor(canvas, ctx, img, saveBtn) {
+    constructor(canvas, saveBtn) {
         this.canvas = canvas;
-        this.ctx = ctx;
-        this.img = img;
+        this.ctx = canvas.getContext("2d");
+        this.img = new Image();
         this.outfit = null;
         this.mouth = null;
         this.eyes = null;
@@ -43,20 +43,41 @@ class SelectionController {
         this.outfitsContainer.innerHTML = "";
         this.eyesContainer.innerHTML = "";
         this.mouthsContainer.innerHTML = "";
-        if (this.outfit) {
-            this.outfit.element.classList.remove("selected");
-            //if (this.outfit.callback) this.outfit.callback(undefined, true);
-            if (this.outfit.callback) this.outfit.callback();
-        }
+        this.deselectOutfit();
+        this.deselectEyes();
+        this.deselectMouth();
+    }
 
+    deselectOutfit() {
+        if (this.outfit)
+            this.deselectElement(this.outfit.element);
+    }
+
+    deselectEyes() {
         if (this.eyes)
-            this.eyes.element.classList.remove("selected");
+            this.deselectElement(this.eyes.element);
+    }
+
+    deselectMouth() {
         if (this.mouth)
-            this.mouth.element.classList.remove("selected");
-        this.outfit = null;
-        this.eyes = null;
-        this.mouth = null;
-        this.showingKimonoElements = false;
+            this.deselectElement(this.mouth.element);
+    }
+
+    deselectElement(element) {
+        element.classList.remove("selected");
+        switch (element.getAttribute("data-type")) {
+            case "outfit":
+                this.outfit = null;
+                break;
+            case "eyes":
+                this.eyes = null;
+                break;
+            case "mouth":
+                this.mouth = null;
+                break;
+            default:
+                console.log("Error: Deselecting unknown type");
+        }
     }
 
     saveSprite() {
@@ -90,27 +111,43 @@ class SelectionController {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    setOutfit(src, outfitElement, deselectCallback) {
-        this.outfit = { src: src, element: outfitElement, callback: deselectCallback };
+    setOutfit(src, outfitElement) {
+        this.outfit = { src: src, element: outfitElement };
     }
 
-    setSelection(src, type, element, callback, specialCase) {
+    selectDefaultEyes() {
+        this.selectElement(selectedCharacter.getCurrentPose().eyes.images[0], "eyes");
+    }
+
+    selectDefaultMouth() {
+        this.selectElement(selectedCharacter.getCurrentPose().mouth.images[0], "mouth");
+    }
+
+    selectElement(element, type) {
+        if (element)
+            this.setSelection(element, type);
+        else
+            console.log("Invalid parameters for selectElement:", element, type);
+    }
+
+    setSelection(element, type) {
+        const src = element.src;
+        if (element.classList.contains("selected"))
+            return;
         element.classList.add("selected");
-        //console.log("Set selection called, special case:", this.specialCase);
         switch (type) {
             case "outfit":
                 if (this.outfit) {
                     this.outfit.element.classList.remove("selected");
-                    let sameSpecialCaseName = false;
-                    if (this.specialCase && specialCase && this.specialCase.name && specialCase.name)
-                        sameSpecialCaseName = (this.specialCase.name === specialCase.name);
-                    if (this.outfit.callback) this.outfit.callback(sameSpecialCaseName);
                 }
-                this.setOutfit(src, element, callback);
-                if (specialCase)
-                    this.specialCase = specialCase;
+                this.setOutfit(src, element);
+                const currentPose = selectedCharacter.getCurrentPose();
+                const imageSetName = element.getAttribute("image-set");
+                if (currentPose.selectedImageSet) {
+                    currentPose.imageSets.get(imageSetName).onImageSetChange(currentPose.selectedImageSet, currentPose.imageSets.get(imageSetName));
+                }
                 else
-                    this.specialCase = null;
+                    currentPose.selectedImageSet = currentPose.imageSets.get(imageSetName);
                 break;
             case "eyes":
                 if (this.eyes)
@@ -125,8 +162,6 @@ class SelectionController {
             default:
                 console.log("Invalid selection");
         }
-
-        //console.log("Set selection finish, special case set to:", this.specialCase);
 
         this.drawSpriteToCanvas(src);
     }

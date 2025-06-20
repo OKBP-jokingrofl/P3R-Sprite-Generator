@@ -4,7 +4,7 @@ class Character {
         this.name = name;
         this.preview = preview;
         this.poses = [];
-        this.selectedPose = 0;
+        this.selectedPoseIndex = 0;
 
         //define offsets for eyes/mouth for each character pose here:
         switch (name) {
@@ -39,6 +39,18 @@ class Character {
             case "Yuko":
                 this.addPose(new Pose("A", new Eyes(688, 1002), new Mouth(688, 1250), this));
                 break;
+            case "Mitsuru":
+                this.addPose(new Pose("A", new Eyes(885, 995), new Mouth(885, 1243), this));
+                this.addPose(new Pose("B", new Eyes(843, 996), new Mouth(843, 1244), this));
+                break;
+            case "Shinji":
+                this.addPose(new Pose("A", new Eyes(938, 1059), new Mouth(938, 1307), this));
+                this.addPose(new Pose("B", new Eyes(824, 943), new Mouth(825, 1179), this));
+                break;
+            case "Aigis":
+                this.addPose(new Pose("A", new Eyes(695, 1052), new Mouth(695, 1300), this));
+                this.addPose(new Pose("B", new Eyes(768, 1049), new Mouth(768, 1297), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
@@ -49,19 +61,18 @@ class Character {
     }
 
     nextPose() {
-        this.selectedPose++;
-        if (this.selectedPose >= this.poses.length)
-            this.selectedPose = 0;
+        if(this.poses.length === 1) return;
+        this.selectedPoseIndex = (this.selectedPoseIndex + 1) % this.poses.length;
         this.loadAssets();
     }
 
     getCurrentPose() {
-        return this.poses[this.selectedPose];
+        return this.poses[this.selectedPoseIndex];
     }
 
     loadAssets() {
         controller.clearImages();
-        this.poses[this.selectedPose].requestAssets();
+        this.poses[this.selectedPoseIndex].requestAssets();
         updateSelectedCharacterView();
     }
 
