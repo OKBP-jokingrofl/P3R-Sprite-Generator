@@ -23,7 +23,8 @@ class SelectionController {
         };
         this.saveBtn = saveBtn;
         this.saveBtn.onclick = e => {
-            this.saveSprite();
+            //this.saveSprite();
+            this.saveCroppedSprite();
             this.showToast();
         };
 
@@ -84,6 +85,26 @@ class SelectionController {
         let fileName = Math.floor(Date.now() * Math.random());
         this.img.write(`${outputFolder}/${fileName}.png`);
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
+    }
+
+    saveCroppedSprite() {
+        let fileName = Math.floor(Date.now() * Math.random());
+        this.img.autocrop({ cropOnlyFrames: false });
+        console.log(`Saving cropped image as ${outputFolder}/${fileName}.png`);
+        this.img.write(`${outputFolder}/${fileName}.png`);
+        document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
+    }
+
+    updateCanvas() {
+        const imageData = new ImageData(
+            new Uint8ClampedArray(this.img.bitmap.data),
+            this.img.bitmap.width,
+            this.img.bitmap.height
+        );
+        this.canvas.width = this.img.bitmap.width;
+        this.canvas.height = this.img.bitmap.height;
+        // Write back to the canvas
+        this.ctx.putImageData(imageData, 0, 0);
     }
 
     async drawSpriteToCanvas() {
