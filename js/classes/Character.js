@@ -51,6 +51,14 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(695, 1052), new Mouth(695, 1300), this));
                 this.addPose(new Pose("B", new Eyes(768, 1049), new Mouth(768, 1297), this));
                 break;
+            case "Tanaka":
+                //this.addPose(new Pose("A", new Eyes(861, 787), new Mouth(861, 1291), this));
+                this.addPoseWrapper("A", 861, 787, 861, 1291);
+                break;
+            case "Elizabeth":
+                //this.addPose(new Pose("A", new Eyes(839, 795), new Mouth(839, 1297), this));
+                this.addPoseWrapper("A", 839, 795, 839, 1297);
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
@@ -58,6 +66,10 @@ class Character {
 
     addPose(pose) {
         this.poses.push(pose);
+    }
+
+    addPoseWrapper(name, eyesXOffset, eyesYOffset, mouthXOffset, mouthYOffset){
+        this.addPose(new Pose(name, new Eyes(eyesXOffset, eyesYOffset), new Mouth(mouthXOffset, mouthYOffset), this));
     }
 
     nextPose() {

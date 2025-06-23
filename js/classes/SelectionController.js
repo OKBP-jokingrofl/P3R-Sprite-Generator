@@ -23,7 +23,8 @@ class SelectionController {
         };
         this.saveBtn = saveBtn;
         this.saveBtn.onclick = e => {
-            this.saveSprite();
+            //this.saveSprite();
+            this.saveCroppedSprite();
             this.showToast();
         };
 
@@ -86,6 +87,30 @@ class SelectionController {
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
 
+    autocropSprite(){
+        this.img.autocrop({ cropOnlyFrames: false });
+    }
+
+    saveCroppedSprite() {
+        let fileName = Math.floor(Date.now() * Math.random());
+        this.img.autocrop({ cropOnlyFrames: false });
+        console.log(`Saving cropped image as ${outputFolder}/${fileName}.png`);
+        this.img.write(`${outputFolder}/${fileName}.png`);
+        document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
+    }
+
+    updateCanvas() {
+        const imageData = new ImageData(
+            new Uint8ClampedArray(this.img.bitmap.data),
+            this.img.bitmap.width,
+            this.img.bitmap.height
+        );
+        this.canvas.width = this.img.bitmap.width;
+        this.canvas.height = this.img.bitmap.height;
+        // Write back to the canvas
+        this.ctx.putImageData(imageData, 0, 0);
+    }
+
     async drawSpriteToCanvas() {
         if (this.outfit && this.eyes && this.mouth) {
             const outfit = await Jimp.read(this.outfit.src);
@@ -93,17 +118,8 @@ class SelectionController {
             const mouth = await Jimp.read(this.mouth.src);
             outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
             outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
-            const imageData = new ImageData(
-                new Uint8ClampedArray(outfit.bitmap.data),
-                outfit.bitmap.width,
-                outfit.bitmap.height
-            );
-
             this.img = outfit;
-            this.canvas.width = outfit.bitmap.width;
-            this.canvas.height = outfit.bitmap.height;
-            // Write back to the canvas
-            this.ctx.putImageData(imageData, 0, 0);
+            this.updateCanvas();
         }
     }
 
