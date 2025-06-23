@@ -61,6 +61,11 @@ body {
     scale: 1.1;
 }
 
+#menu {
+    height: 50px;
+    width: 50px;
+}
+
 .poseButton {
     width: 100%;
     height: 50px;
