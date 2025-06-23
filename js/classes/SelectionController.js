@@ -87,6 +87,10 @@ class SelectionController {
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
 
+    autocropSprite(){
+        this.img.autocrop({ cropOnlyFrames: false });
+    }
+
     saveCroppedSprite() {
         let fileName = Math.floor(Date.now() * Math.random());
         this.img.autocrop({ cropOnlyFrames: false });
@@ -114,17 +118,8 @@ class SelectionController {
             const mouth = await Jimp.read(this.mouth.src);
             outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
             outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
-            const imageData = new ImageData(
-                new Uint8ClampedArray(outfit.bitmap.data),
-                outfit.bitmap.width,
-                outfit.bitmap.height
-            );
-
             this.img = outfit;
-            this.canvas.width = outfit.bitmap.width;
-            this.canvas.height = outfit.bitmap.height;
-            // Write back to the canvas
-            this.ctx.putImageData(imageData, 0, 0);
+            this.updateCanvas();
         }
     }
 
