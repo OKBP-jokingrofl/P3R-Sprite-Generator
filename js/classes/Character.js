@@ -1,8 +1,9 @@
 
 class Character {
-    constructor(name, preview) {
+    constructor(name, preview, folderName) {
         this.name = name;
         this.preview = preview;
+        this.folderName = folderName;
         this.poses = [];
         this.selectedPoseIndex = 0;
 
