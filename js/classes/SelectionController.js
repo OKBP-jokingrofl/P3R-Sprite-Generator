@@ -87,7 +87,7 @@ class SelectionController {
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
 
-    autocropSprite(){
+    autocropSprite() {
         this.img.autocrop({ cropOnlyFrames: false });
     }
 
@@ -116,8 +116,18 @@ class SelectionController {
             const outfit = await Jimp.read(this.outfit.src);
             const eyes = await Jimp.read(this.eyes.src);
             const mouth = await Jimp.read(this.mouth.src);
-            outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
             outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
+            outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
+
+            // if (selectedCharacter.name === "Igor") {
+            //     outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
+            //     outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
+            // }
+            // else {
+            //     outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
+            //     outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
+            // }
+
             this.img = outfit;
             this.updateCanvas();
         }
