@@ -12,6 +12,7 @@ class Character {
             case "Yukari":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
                 this.addPose(new Pose("B", new Eyes(761, 1049), new Mouth(761, 1287), this));
+                this.addPose(new Pose("C", new Eyes(662, 857), new Mouth(662, 1095), this));
                 break;
             case "Makoto":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
