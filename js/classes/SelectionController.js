@@ -23,8 +23,7 @@ class SelectionController {
         };
         this.saveBtn = saveBtn;
         this.saveBtn.onclick = e => {
-            //this.saveSprite();
-            this.saveCroppedSprite();
+            this.saveSprite(autoCrop);
             this.showToast();
         };
 
@@ -81,21 +80,13 @@ class SelectionController {
         }
     }
 
-    saveSprite() {
+    saveSprite(autoCrop) {
         let fileName = Math.floor(Date.now() * Math.random());
-        this.img.write(`${outputFolder}/${fileName}.png`);
-        document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
-    }
-
-    autocropSprite() {
-        this.img.autocrop({ cropOnlyFrames: false });
-    }
-
-    saveCroppedSprite() {
-        let fileName = Math.floor(Date.now() * Math.random());
-        this.img.autocrop({ cropOnlyFrames: false });
-        console.log(`Saving cropped image as ${outputFolder}/${fileName}.png`);
-        this.img.write(`${outputFolder}/${fileName}.png`);
+        if (autoCrop) 
+            this.img.clone().autocrop({cropOnlyFrames: false}).write(`${outputFolder}/${fileName}.png`);
+        else 
+            this.img.write(`${outputFolder}/${fileName}.png`);
+        
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
 
