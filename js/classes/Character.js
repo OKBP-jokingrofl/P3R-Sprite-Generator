@@ -87,6 +87,15 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(825, 757), new Mouth(825, 1254), this));
                 this.addPose(new Pose("B", new Eyes(678, 696), new Mouth(705, 1200), this));
                 break;
+            case "Takeharu":
+                this.addPose(new Pose("A", new Eyes(710, 758), new Mouth(710, 1264), this));
+                break;
+            case "Kurosawa":
+                this.addPose(new Pose("A", new Eyes(748, 1050), new Mouth(748, 1288), this));
+                break;
+            case "Pharos":
+                this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
