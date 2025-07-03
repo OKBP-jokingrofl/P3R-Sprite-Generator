@@ -1,8 +1,9 @@
 
 class Character {
-    constructor(name, preview) {
+    constructor(name, preview, folderName) {
         this.name = name;
         this.preview = preview;
+        this.folderName = folderName;
         this.poses = [];
         this.selectedPoseIndex = 0;
 
@@ -11,6 +12,7 @@ class Character {
             case "Yukari":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
                 this.addPose(new Pose("B", new Eyes(761, 1049), new Mouth(761, 1287), this));
+                this.addPose(new Pose("C", new Eyes(662, 857), new Mouth(662, 1095), this));
                 break;
             case "Makoto":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
@@ -51,6 +53,49 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(695, 1052), new Mouth(695, 1300), this));
                 this.addPose(new Pose("B", new Eyes(768, 1049), new Mouth(768, 1297), this));
                 break;
+            case "Tanaka":
+                //this.addPose(new Pose("A", new Eyes(861, 787), new Mouth(861, 1291), this));
+                this.addPoseWrapper("A", 861, 787, 861, 1291);
+                break;
+            case "Elizabeth":
+                //this.addPose(new Pose("A", new Eyes(839, 795), new Mouth(839, 1297), this));
+                this.addPoseWrapper("A", 839, 795, 839, 1297);
+                break;
+            case "Chidori":
+                this.addPose(new Pose("A", new Eyes(628, 773), new Mouth(629, 1280), this));
+                break;
+            case "Jin":
+                this.addPose(new Pose("A", new Eyes(656, 973), new Mouth(656, 1221), this));
+                break;
+            case "Takaya":
+                this.addPose(new Pose("A", new Eyes(793, 784), new Mouth(793, 1289), this));
+                this.addPose(new Pose("B", new Eyes(746, 631), new Mouth(746, 1135), this));
+                break;
+            case "Koromaru":
+                this.addPose(new Pose("D", new Eyes(515, 647), new Mouth(515, 647), this));
+                break;
+            case "Igor":
+                this.addPose(new Pose("A", new Eyes(517, 865), new Mouth(517, 1266), this));
+                break;
+            case "Ryoji":
+                this.addPose(new Pose("A", new Eyes(662, 1058), new Mouth(662, 1296), this));
+                break;
+            case "Kenji":
+                this.addPose(new Pose("A", new Eyes(654, 738), new Mouth(654, 1242), this));
+                break;
+            case "Ikutsuki":
+                this.addPose(new Pose("A", new Eyes(825, 757), new Mouth(825, 1254), this));
+                this.addPose(new Pose("B", new Eyes(678, 696), new Mouth(705, 1200), this));
+                break;
+            case "Takeharu":
+                this.addPose(new Pose("A", new Eyes(710, 758), new Mouth(710, 1264), this));
+                break;
+            case "Kurosawa":
+                this.addPose(new Pose("A", new Eyes(748, 1050), new Mouth(748, 1288), this));
+                break;
+            case "Pharos":
+                this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
@@ -58,6 +103,10 @@ class Character {
 
     addPose(pose) {
         this.poses.push(pose);
+    }
+
+    addPoseWrapper(name, eyesXOffset, eyesYOffset, mouthXOffset, mouthYOffset){
+        this.addPose(new Pose(name, new Eyes(eyesXOffset, eyesYOffset), new Mouth(mouthXOffset, mouthYOffset), this));
     }
 
     nextPose() {

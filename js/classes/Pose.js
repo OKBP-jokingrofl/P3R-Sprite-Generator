@@ -8,10 +8,10 @@ class Pose {
         this.mouth.pose = this;
         this.outfitImages = [];
         this.specialOutfits = [];
-        this.characterName = character.name;
-        this.outfitsPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`);
-        this.eyesPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Eyes");
-        this.mouthPath = path.join(__dirname, "assets", this.characterName, `Pose ${name}`, "Mouth");
+        this.characterFolderName = character.folderName;
+        this.outfitsPath = path.join(__dirname, "assets", this.characterFolderName, `Pose ${name}`);
+        this.eyesPath = path.join(__dirname, "assets", this.characterFolderName, `Pose ${name}`, "Eyes");
+        this.mouthPath = path.join(__dirname, "assets", this.characterFolderName, `Pose ${name}`, "Mouth");
         this.outfitsLoaded = false;
         this.imageSets = new Map();
         this.selectedImageSet = null;

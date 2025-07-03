@@ -25,12 +25,14 @@ const getCharacters = () => {
     const assetsPath = path.join(app.getAppPath(), "assets");
     fs.readdir(assetsPath, (err, files) => {
         for (const character of files) {
+            const re = /[a-z]+/gmi;
+            const characterName = re.exec(character)[0];
             const characterPath = path.join(app.getAppPath(), "assets", character);
             const results = fs.readdirSync(characterPath);
             for (const file of results) {
                 if (file.includes(".png")) {
                     //console.log({ name: character, preview: path.join(characterPath, file) });
-                    characters.push({ name: character, preview: path.join(characterPath, file) });
+                    characters.push({ name: characterName, preview: path.join(characterPath, file), folderName: character });
                 }
             }
         }

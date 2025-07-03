@@ -22,7 +22,7 @@ ipcRenderer.on("characters", (e, characters) => {
     console.log("Received characters:");
     console.log(characters);
     for (let character of characters) {
-        let newCharacter = new Character(character.name, character.preview);
+        let newCharacter = new Character(character.name, character.preview, character.folderName);
         characterList.push(newCharacter);
         const container = document.createElement("div");
         container.classList.add("characterContainer");

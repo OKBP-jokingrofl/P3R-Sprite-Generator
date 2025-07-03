@@ -42,6 +42,30 @@ body {
     height: 100px;
 }
 
+.bottomLeftPanel {
+    width: 100px;
+    position: fixed;
+    bottom: 5%;
+    left: 5%;
+    height: 100px;
+}
+
+.settingsIcon {
+    height: 50px;
+    width: 50px;
+    transition: 0.5s;
+}
+
+.settingsIcon:hover {
+    cursor: pointer;
+    scale: 1.1;
+}
+
+#menu {
+    height: 50px;
+    width: 50px;
+}
+
 .poseButton {
     width: 100%;
     height: 50px;

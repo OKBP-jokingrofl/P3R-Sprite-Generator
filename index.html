@@ -8,6 +8,7 @@
   <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/characterSelection.css">
+  <link rel="stylesheet" href="css/settings.css">
   <title>P3R Sprite Generator by u/jokingrofl</title>
 </head>
 
@@ -51,6 +52,16 @@
       <button type="button" class="poseButton" id="nextPoseBtn">Next Pose</button>
     </div>
 
+    <div class="bottomLeftPanel">
+      <!-- <img class="settingsIcon" src="page assets/settings.png" popovertarget="menu" alt=""> -->
+      <!-- <div class="menu" popover id="menu"></div> -->
+      <h3>Auto-Crop</h3>
+      <input type="checkbox" id="_checkbox" checked="true">
+      <label for="_checkbox">
+        <div id="tick_mark"></div>
+      </label>
+    </div>
+
   </div>
 
   <script src="js/classes/SpecialOutfit.js"></script>
@@ -62,6 +73,7 @@
   <script src="js/classes/SelectionController.js"></script>
   <script src="js/loadAssets.js"></script>
   <script src="js/characterSelection.js"></script>
+  <script src="js/settings.js"></script>
 </body>
 
 </html>
