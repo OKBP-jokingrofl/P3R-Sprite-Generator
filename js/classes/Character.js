@@ -96,6 +96,9 @@ class Character {
             case "Pharos":
                 this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this));
                 break;
+            case "Bebe":
+                this.addPose(new Pose("A", new Eyes(798, 1019), new Mouth(798, 1267), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
