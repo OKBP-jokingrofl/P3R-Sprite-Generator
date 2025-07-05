@@ -2,7 +2,9 @@ const characterList = [];
 let selectedCharacter = null;
 
 function updateSelectedCharacterView(){
-    document.getElementById("currentSelection").innerText = `${selectedCharacter.name} Pose ${selectedCharacter.getCurrentPose().name}`;
+    document.getElementById("currentSelection").innerText = `${selectedCharacter.name}`;
+    document.getElementById("poseName").innerText = `Pose ${selectedCharacter.getCurrentPose().name}`;
+    document.getElementById("posesCounter").innerText = `Pose ${selectedCharacter.selectedPoseIndex + 1} of ${selectedCharacter.poses.length}`;
 }
 
 function selectCharacter(character) {

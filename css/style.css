@@ -124,6 +124,8 @@ button:hover {
     height: auto;
     position: relative;
     top: -31%;
+    left: 4%;
+    pointer-events: none;
     /* grid-area: a; */
 }
 
