@@ -106,6 +106,9 @@ class Character {
             case "Kazushi":
                 this.addPose(new Pose("A", new Eyes(853, 780), new Mouth(853, 1282), this));
                 break;
+            case "Keisuke":
+                this.addPose(new Pose("A", new Eyes(715, 1029), new Mouth(715, 1277), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
