@@ -13,6 +13,7 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
                 this.addPose(new Pose("B", new Eyes(761, 1049), new Mouth(761, 1287), this));
                 this.addPose(new Pose("C", new Eyes(662, 857), new Mouth(662, 1095), this));
+                this.addPose(new Pose("D", new Eyes(753, 829), new Mouth(753, 1067), this));
                 break;
             case "Makoto":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
@@ -95,6 +96,33 @@ class Character {
                 break;
             case "Pharos":
                 this.addPose(new Pose("A", new Eyes(781, 1072), new Mouth(781, 1320), this));
+                break;
+            case "Bebe":
+                this.addPose(new Pose("A", new Eyes(798, 1019), new Mouth(798, 1267), this));
+                break;
+            case "Hidetoshi":
+                this.addPose(new Pose("A", new Eyes(653, 756), new Mouth(653, 1264), this));
+                break;
+            case "Kazushi":
+                this.addPose(new Pose("A", new Eyes(853, 780), new Mouth(853, 1282), this));
+                break;
+            case "Keisuke":
+                this.addPose(new Pose("A", new Eyes(715, 1029), new Mouth(715, 1277), this));
+                break;
+            case "Mamoru":
+                this.addPose(new Pose("A", new Eyes(798, 1019), new Mouth(798, 1267), this));
+                break;
+            case "Maiko":
+                this.addPose(new Pose("A", new Eyes(786, 814), new Mouth(786, 1320), this));
+                break;
+            case "Mayoido":
+                this.addPose(new Pose("A", new Eyes(807, 783), new Mouth(807, 1279), this));
+                break;
+            case "Natsuki":
+                this.addPose(new Pose("A", new Eyes(662, 984), new Mouth(662, 1234), this));
+                break;
+            case "Akinari":
+                this.addPose(new Pose("A", new Eyes(813, 896), new Mouth(813, 1150), this));
                 break;
             default:
                 console.log("Unimplemented character: ", name);
