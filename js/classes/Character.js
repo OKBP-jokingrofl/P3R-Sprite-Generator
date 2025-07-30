@@ -129,6 +129,7 @@ class Character {
                 break;
             case "Nozomi":
                 this.addPose(new Pose("A", new Eyes(488, 706), new Mouth(488, 1206), this));
+                this.addPose(new Pose("B", new Eyes(488, 706), new Mouth(488, 1206), this));
                 break;
             default:
                 console.log("Unimplemented character: ", name);
