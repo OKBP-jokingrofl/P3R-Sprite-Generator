@@ -124,6 +124,12 @@ class Character {
             case "Akinari":
                 this.addPose(new Pose("A", new Eyes(813, 896), new Mouth(813, 1150), this));
                 break;
+            case "Aohige":
+                this.addPose(new Pose("A", new Eyes(811, 811), new Mouth(811, 1054), this));
+                break;
+            case "Nozomi":
+                this.addPose(new Pose("A", new Eyes(488, 706), new Mouth(488, 1206), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
