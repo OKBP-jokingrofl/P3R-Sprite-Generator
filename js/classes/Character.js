@@ -131,6 +131,15 @@ class Character {
                 this.addPose(new Pose("A", new Eyes(488, 706), new Mouth(488, 1206), this));
                 this.addPose(new Pose("B", new Eyes(488, 706), new Mouth(488, 1206), this));
                 break;
+            case "Mutatsu":
+                this.addPose(new Pose("A", new Eyes(780, 633), new Mouth(780, 1131), this));
+                break;
+            case "Bunkichi":
+                this.addPose(new Pose("A", new Eyes(643, 780), new Mouth(644, 1284), this));
+                break;
+            case "Mitsuko":
+                this.addPose(new Pose("A", new Eyes(792, 787), new Mouth(792, 1291), this));
+                break;
             default:
                 console.log("Unimplemented character: ", name);
         }
