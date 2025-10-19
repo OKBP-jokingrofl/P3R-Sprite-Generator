@@ -1,5 +1,6 @@
 const { ipcMain, ipcRenderer, shell } = require('electron');
 const path = require('path');
+const fs = require('fs'); //maybe remove later
 let outfitsLoaded = false;
 let mouthLoaded = false;
 let eyesLoaded = false;

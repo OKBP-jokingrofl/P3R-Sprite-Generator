@@ -8,6 +8,7 @@ class Pose {
         this.mouth.pose = this;
         this.outfitImages = [];
         this.specialOutfits = [];
+        this.extras = [];
         this.characterFolderName = character.folderName;
         this.outfitsPath = path.join(__dirname, "assets", this.characterFolderName, `Pose ${name}`);
         this.eyesPath = path.join(__dirname, "assets", this.characterFolderName, `Pose ${name}`, "Eyes");
@@ -19,9 +20,9 @@ class Pose {
 
     selectImageSet(imageSet, resetEyes, resetMouths) {
         this.selectedImageSet = imageSet;
-        if(resetEyes)
+        if (resetEyes)
             controller.setSelection(imageSet.eyes[0], "eyes");
-        if(resetMouths)
+        if (resetMouths)
             controller.setSelection(imageSet.mouths[0], "mouth");
     }
 
@@ -31,9 +32,10 @@ class Pose {
     }
 
     appendImages() {
-        let outfitsContainer = document.getElementById("outfits");
+        const outfitsContainer = document.getElementById("outfits");
         const eyesContainer = document.getElementById("eyes");
-        const mouthsContainer = document.getElementById("mouths")
+        const mouthsContainer = document.getElementById("mouths");
+        const extrasContainer = document.getElementById("extrasContainer");
 
         for (const image of this.outfitImages)
             outfitsContainer.appendChild(image);
@@ -48,6 +50,42 @@ class Pose {
         }
         this.eyes.appendImages();
         this.mouth.appendImages();
+        for(const extra of this.extras){
+            const nullChoiceContainer = document.createElement("div");
+            nullChoiceContainer.classList.add("squareContainer");
+            nullChoiceContainer.classList.add("default");
+            const labelContainer = document.createElement("div");
+            labelContainer.classList.add("squareContainer");
+            const label = document.createElement("h4");
+            label.innerText = `${extra.name}:`;
+            labelContainer.appendChild(label);
+            extrasContainer.appendChild(labelContainer);
+            const nullChoice = document.createElement("h5");
+            nullChoice.innerText = "None";
+            nullChoiceContainer.setAttribute("data-type", "extra");
+            nullChoiceContainer.classList.add("selectableExtra");
+            nullChoiceContainer.onclick = e => {
+                controller.setSelection(nullChoiceContainer, "extra");
+            };
+            nullChoiceContainer.appendChild(nullChoice);
+            extrasContainer.appendChild(nullChoiceContainer);
+            for(const file of extra.files){
+                const choiceContainer = document.createElement("div");
+                choiceContainer.classList.add("squareContainer");
+                const choiceLabel = document.createElement("h5");
+                choiceContainer.src = path.join(extra.path, file);
+                choiceContainer.setAttribute("data-type", "extra");
+                choiceContainer.xOffset = extra.xOffset;
+                choiceContainer.yOffset = extra.yOffset;
+                choiceLabel.innerText = file;
+                choiceContainer.classList.add("selectableExtra");
+                choiceContainer.onclick = e => {
+                    controller.setSelection(choiceContainer, "extra");
+                }
+                choiceContainer.appendChild(choiceLabel);
+                extrasContainer.appendChild(choiceContainer);
+            }
+        }
         this.drawDefaultSprite();
     }
 
@@ -55,6 +93,7 @@ class Pose {
         controller.setSelection(this.outfitImages[0], "outfit");
         controller.setSelection(this.eyes.images[0], "eyes");
         controller.setSelection(this.mouth.images[0], "mouth");
+        controller.selectDefaultExtra();
     }
 
     requestAssets() {
@@ -64,7 +103,11 @@ class Pose {
         else {
             this.appendImages();
         }
-        
+
+    }
+
+    addExtra(fileName, xOffset, yOffset) {
+        this.extras.push(new Extra(fileName, xOffset, yOffset, this.character, `Pose ${this.name}`));
     }
 
     setImages(images) {

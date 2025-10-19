@@ -8,7 +8,7 @@ const createWindow = () => {
     win = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true,
-            experimentalFeatures: true,
+            experimentalFeatures: false,
             enableRemoteModule: true,
             contextIsolation: false
         },
@@ -74,7 +74,7 @@ function grabImagesFromDir(directory) {
     }
     //console.log("Folders: ", folders);
     for (const folder of folders) {
-        if (folder !== "Eyes" && folder !== "Mouth") {
+        if (folder !== "Eyes" && folder !== "Mouth" && folder !== "Extras") {
             console.log("Special case found:", folder);
             specialCases.push(folder);
         }

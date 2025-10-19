@@ -27,6 +27,12 @@ body {
     padding-bottom: 10px;
 }
 
+#extrasContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+}
+
 .bottomRightPanel {
     /* grid-area: c; */
     /* height: 20%; */
@@ -115,8 +121,25 @@ button:hover {
     transition: 0.5s;
 }
 
+.selectableExtra {
+    height: 50%;
+    width: 50%;
+    border: 2px solid white;
+}
+
+.selectableExtra:hover {
+    cursor: pointer;
+    transition: 0.5s;
+}
+
 .selected {
-    border: 2px solid black;
+    border-width: 2px;
+    border-image: linear-gradient(to right, #F44336, #FFEB3B) 1;
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: rgba(93, 206, 0, 0.75);
+    outline-style: solid;
+    animation: animateOutline 3s ease infinite;
 }
 
 #canvas {
@@ -132,6 +155,15 @@ button:hover {
 .messageBox {
     width: 100%;
     height: 50px;
+}
+
+.squareContainer {
+    width: calc(98% - 2px);
+    height: 100%;
+}
+
+h5 {
+    text-align: center;
 }
 
 .toast {
@@ -156,3 +188,31 @@ button:hover {
     color: white;
     justify-self: center;
 }
+
+
+
+@keyframes animateOutline {
+  0% {
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: rgba(7, 0, 206, 0);
+  }
+
+  10% {
+    outline-color: rgba(110, 206, 0, 0.75);
+  }
+
+  /* The animation finishes at 50% */
+  50% {
+    outline-width: 2px;
+    outline-offset: 1px;
+    outline-color: rgba(206, 189, 0, 0);
+  }
+
+  100% {
+    outline-width: 2px;
+    outline-offset: 1px;
+    outline-color: rgba(102, 102, 102, 0);
+  }
+}
+

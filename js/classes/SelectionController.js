@@ -10,10 +10,12 @@ class SelectionController {
         this.mouth = null;
         this.eyes = null;
         this.specialCase = null;
+        this.extra = null;
         this.toast = document.querySelector(".toast");
         this.outfitsContainer = document.getElementById("outfits");
         this.eyesContainer = document.getElementById("eyes");
         this.mouthsContainer = document.getElementById("mouths");
+        this.extrasContainer = document.getElementById("extrasContainer");
         this.img.onload = () => {
             console.log("onload triggered");
             this.clearCanvas();
@@ -43,9 +45,11 @@ class SelectionController {
         this.outfitsContainer.innerHTML = "";
         this.eyesContainer.innerHTML = "";
         this.mouthsContainer.innerHTML = "";
+        this.extrasContainer.innerHTML = "";
         this.deselectOutfit();
         this.deselectEyes();
         this.deselectMouth();
+        this.deselectExtra();
     }
 
     deselectOutfit() {
@@ -63,6 +67,11 @@ class SelectionController {
             this.deselectElement(this.mouth.element);
     }
 
+    deselectExtra() {
+        if (this.extra && this.extra.element)
+            this.deselectElement(this.extra.element);
+    }
+
     deselectElement(element) {
         element.classList.remove("selected");
         switch (element.getAttribute("data-type")) {
@@ -75,6 +84,9 @@ class SelectionController {
             case "mouth":
                 this.mouth = null;
                 break;
+            case "extra":
+                this.extra = null;
+                break;
             default:
                 console.log("Error: Deselecting unknown type");
         }
@@ -82,11 +94,11 @@ class SelectionController {
 
     saveSprite(autoCrop) {
         let fileName = Math.floor(Date.now() * Math.random());
-        if (autoCrop) 
-            this.img.clone().autocrop({cropOnlyFrames: false}).write(`${outputFolder}/${fileName}.png`);
-        else 
+        if (autoCrop)
+            this.img.clone().autocrop({ cropOnlyFrames: false }).write(`${outputFolder}/${fileName}.png`);
+        else
             this.img.write(`${outputFolder}/${fileName}.png`);
-        
+
         document.getElementById("message").innerText = `Saved image as ${fileName}.png`;
     }
 
@@ -109,15 +121,10 @@ class SelectionController {
             const mouth = await Jimp.read(this.mouth.src);
             outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
             outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
-
-            // if (selectedCharacter.name === "Igor") {
-            //     outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
-            //     outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
-            // }
-            // else {
-            //     outfit.composite(eyes, selectedCharacter.getCurrentPose().eyes.offsetX, selectedCharacter.getCurrentPose().eyes.offsetY);
-            //     outfit.composite(mouth, selectedCharacter.getCurrentPose().mouth.offsetX, selectedCharacter.getCurrentPose().mouth.offsetY);
-            // }
+            if (this.extra && this.extra.src) {
+                const extra = await Jimp.read(this.extra.src);
+                outfit.composite(extra, this.extra.element.xOffset, this.extra.element.yOffset);
+            }
 
             this.img = outfit;
             this.updateCanvas();
@@ -138,6 +145,13 @@ class SelectionController {
 
     selectDefaultMouth() {
         this.selectElement(selectedCharacter.getCurrentPose().mouth.images[0], "mouth");
+    }
+
+    selectDefaultExtra() {
+        if (selectedCharacter.getCurrentPose().extras) {
+            this.selectElement(this.extrasContainer.querySelector(".default"), "extra");
+        }
+
     }
 
     selectElement(element, type) {
@@ -175,6 +189,11 @@ class SelectionController {
                 if (this.mouth)
                     this.mouth.element.classList.remove("selected");
                 this.mouth = { src: src, element: element };
+                break;
+            case "extra":
+                if (this.extra)
+                    this.extra.element.classList.remove("selected");
+                this.extra = { src: src, element: element };
                 break;
             default:
                 console.log("Invalid selection");
