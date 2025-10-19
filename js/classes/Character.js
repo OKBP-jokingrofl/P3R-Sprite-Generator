@@ -11,9 +11,13 @@ class Character {
         switch (name) {
             case "Yukari":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
+                this.poses[0].addExtra("Blush", 716, 1160);
                 this.addPose(new Pose("B", new Eyes(761, 1049), new Mouth(761, 1287), this));
+                this.poses[1].addExtra("Blush", 786, 1155);
                 this.addPose(new Pose("C", new Eyes(662, 857), new Mouth(662, 1095), this));
+                this.poses[2].addExtra("Blush", 715, 943);
                 this.addPose(new Pose("D", new Eyes(753, 829), new Mouth(753, 1067), this));
+                this.poses[3].addExtra("Blush", 793, 939);
                 break;
             case "Makoto":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
