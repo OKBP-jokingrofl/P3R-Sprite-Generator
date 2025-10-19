@@ -21,6 +21,7 @@ class Character {
                 break;
             case "Makoto":
                 this.addPose(new Pose("A", new Eyes(668, 1072), new Mouth(668, 1310), this));
+                this.poses[0].addExtra("Blush", 717, 1156);
                 break;
             case "Junpei":
                 this.addPose(new Pose("A", new Eyes(789, 1033), new Mouth(789, 1281), this));
