@@ -77,7 +77,9 @@ class Pose {
                 choiceContainer.setAttribute("data-type", "extra");
                 choiceContainer.xOffset = extra.xOffset;
                 choiceContainer.yOffset = extra.yOffset;
-                choiceLabel.innerText = file;
+                const rgx = /.+(?=.png)/g;
+                const results = rgx.exec(file);
+                choiceLabel.innerText = results[0];
                 choiceContainer.classList.add("selectableExtra");
                 choiceContainer.onclick = e => {
                     controller.setSelection(choiceContainer, "extra");
