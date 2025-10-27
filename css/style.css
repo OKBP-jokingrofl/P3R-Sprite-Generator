@@ -189,6 +189,14 @@ h5 {
     justify-self: center;
 }
 
+#outfits, #eyes, #mouths {
+    border-bottom: solid #00000078 2px;
+    padding-top: 2px;
+}
+
+#extras {
+    padding-top: 2px;
+}
 
 
 @keyframes animateOutline {
